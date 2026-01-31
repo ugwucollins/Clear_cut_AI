@@ -1,11 +1,18 @@
+import Aos from "aos";
 import Container from "../../../context/Container";
 import Logo from "../../Bars/Logo";
 import SignInForm from "./SignInForm";
+import { useEffect } from "react";
 
 const SignIn = () => {
+  useEffect(() => {
+    Aos.init({ duration: 1000, once: true, easing: "ease-in-out", delay: 10 });
+  }, []);
+
   return (
     <Container className="min-h-screen flex items-center justify-center">
       <div
+        data-aos="flip-up"
         className="flex flex-col w-full max-w-125 p-5 py-10
        justify-between items-center
       rounded-3xl shadow-2xl bg-blue-950/20 backdrop-blur-md border drop-shadow-2xl border-blue-800/20 hover:shadow-blue-800/80 transition-all shadow-blue-900/50
