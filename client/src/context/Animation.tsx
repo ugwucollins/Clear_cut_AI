@@ -37,7 +37,7 @@ const TextAnimations = ({
 
 export default TextAnimations;
 
-export const XSlider = (
+export const XSlider: any = (
   dis: number,
   dur: number,
   del: number,
@@ -61,7 +61,7 @@ export const XSlider = (
   };
 };
 
-export const YSlider = (
+export const YSlider: any = (
   dis: number,
   dur: number,
   del: number,

@@ -1,4 +1,4 @@
-import WorkHome from "../component/Workspace/workHome";
+import WorkHome from "../component/Workspace/WorkHome";
 import Container from "../context/Container";
 
 const WorkSpacePage = () => {
