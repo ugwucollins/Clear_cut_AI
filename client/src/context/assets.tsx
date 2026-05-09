@@ -112,27 +112,31 @@ export const SocialMediaLink: SocialMediaProps[] = [
 
 export const PriceArray: PriceCardProps[] = [
   {
-    title: "free",
-    amount: "0",
+    title: "Basic",
+    plan: "Basic",
+
+    amount: "100",
     message: "Perfect for trying out our AI features",
-    value: 0,
+    value: 100 * 100,
     list: [
-      "5 credits per month",
+      "10 credits per month",
       "Standard Definition (SD)",
       "Single image processing",
       "Standard quality",
     ],
     btn: "Get Started",
     path: "",
-    topTitle: "Free Use",
+    topTitle: "Basic Use",
   },
+
   {
     title: "pro",
-    amount: "30",
+    plan: "Advance",
+    amount: "200",
     message: "Best for creative professionals",
-    value: 2000 * 100,
+    value: 200 * 100,
     list: [
-      "100 credits per month",
+      "20 credits per month",
       "High Definition (SD)",
       "Batch processing (50 images) ",
       "Priority support",
@@ -141,13 +145,15 @@ export const PriceArray: PriceCardProps[] = [
     path: "",
     topTitle: "Most popular",
   },
+
   {
     title: "business",
-    amount: "99",
+    plan: "Business",
+    amount: "500",
     message: "Advanced tools for teams and scale",
-    value: 9000 * 100,
+    value: 500 * 100,
     list: [
-      "5 credits per month",
+      "50 credits per month",
       "Standard Definition (SD)",
       "Single image processing",
       "No Api Access",
@@ -157,6 +163,7 @@ export const PriceArray: PriceCardProps[] = [
     topTitle: "Contact popular",
   },
 ];
+
 
 export const ContactIcons: SocialIconsProps[] = [
   {
@@ -181,7 +188,7 @@ export const ContactCards: ContactCardProps[] = [
   {
     icon: <RiMessageFill />,
     title: "Email Support",
-    message: "support@clear_cut_ai.com",
+    message: "support@ clear_cut_ai .com",
   },
   {
     icon: <BsClockFill />,
@@ -191,14 +198,14 @@ export const ContactCards: ContactCardProps[] = [
   },
   {
     icon: <BiLocationPlus />,
-    title: "Headquarters",
+    title: "Head quarters",
     message: "san Francisco, CA",
   },
 ];
 
 export const Account: AccountProp[] = [
   { title: "Personal Information", type: "account" },
-  { title: "My Orders", type: "orders" },
+  { title: "Payment Method", type: "payment" },
   { title: "Password Manager", type: "password" },
   { title: "Logout", type: "logout" },
 ];
@@ -206,6 +213,6 @@ export const Account: AccountProp[] = [
 export const AccountType = {
   Personal_Account: "account",
   Password_Manager: "password",
-  My_Orders: "orders",
+  Payment: "payment",
   Logout: "logout",
 };

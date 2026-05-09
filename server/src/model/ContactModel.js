@@ -10,10 +10,9 @@ const ContactSchema = new mongoose.Schema(
       type: String,
       ref: "users",
     },
-    email: {
+    userEmail: {
       type: String,
       required: true,
-      unique: true,
     },
     subject: {
       type: String,

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { UserAuth } from "../../context/UserContext";
+
 import { ApiUrl } from "../../context/ApiUrl";
 import { toast } from "react-toastify";
 import Avater from "../../context/Avater";
@@ -8,9 +8,10 @@ import InputField from "../../context/InputField";
 import Button from "../../context/Button";
 import { ProfileSchema } from "../../utils/Schema/ProfileSchema";
 import type { ProfileValues } from "../../utils/FormValues/ProfileValues";
+import { UserAuthInfo } from "../../App";
 
 const PersonalAccount = () => {
-  const { user, setUser }: any = UserAuth();
+  const { user, setUser }: any = UserAuthInfo();
   const {
     register,
     handleSubmit,
@@ -36,16 +37,18 @@ const PersonalAccount = () => {
     };
 
     try {
-      const res = await ApiUrl.put(`/user/update`, Info);
+      const res = await ApiUrl.put(`/users/update`, Info);
       const info = res.data;
+      console.log(info);
+
       if (info.success) {
         toast.success(info.message || "User Update Successfully");
         setTimeout(() => {
-          setUser(info.data);
-          setValue("phoneNumber", "");
-          setValue("name", "");
-          setValue("email", "");
+          setValue("phoneNumber", info?.data?.phoneNumber);
+          setValue("name", info?.data?.name);
+          setValue("email", info?.data?.email);
         }, 1000);
+        setUser(info.data);
       } else {
         toast.error(info.message);
       }
@@ -59,7 +62,7 @@ const PersonalAccount = () => {
   };
 
   return (
-    <div>
+    <div className=" bg-blue-950/15  max-sm:p-3.5 p-10 rounded-2xl backdrop-blur-2xl border border-gray-600/50 hover:shadow-2xl hover:drop-shadow-2xl hover:shadow-blue-900/60 hover:cursor-pointer transition-colors duration-200">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-sm:px-6 max-sm:rounded-xl max-sm:py-10 max-sm:shadow-xl hover:max-sm:shadow-blue-900/60 hover:transition-all duration-200 hover:max-sm:cursor-pointer drop-shadow-2xl max-sm:bg-blue-900/10 max-sm:backdrop-blur-2xl max-sm:border-2 max-sm:border-blue-950/50"
@@ -67,20 +70,20 @@ const PersonalAccount = () => {
         <h1 className="text-center font-bold pb-4 text-lg">My Account</h1>
         <div className="w-full flex justify-center py-8 items-center text-center">
           <Avater
-            name={user.name}
+            name={user?.name}
             className="size-20 font-bold text-4xl shadow-2xl drop-shadow-2xl shadow-blue-900/80"
           />
         </div>
         <div className="w-full flex flex-row gap-4 max-[500px]:flex-col">
           <InputField
-            label="Fullname*"
+            label="Fullname"
             type="text"
             error={errors.name?.message}
             placeholder="Ex. John"
             value={register("name")}
           />
           <InputField
-            label="phoneNumber*"
+            label="phoneNumber"
             type="number"
             error={errors.phoneNumber?.message}
             placeholder="081011110"
@@ -89,7 +92,7 @@ const PersonalAccount = () => {
         </div>
 
         <InputField
-          label="email*"
+          label="email"
           type="email"
           className="bg-black-950"
           error={errors.email?.message}

@@ -10,7 +10,7 @@ export const protectedAuth = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-      message: "No token provided",
+      message: " Unauthroized / User not Logged In",
       success: false,
     });
   }
@@ -21,7 +21,7 @@ export const protectedAuth = (req, res, next) => {
       req.userId = decoded.id;
     } else {
       res.status(404).json({
-        message: "No token provided",
+        message: "No token provided/ Please Login",
         success: false,
       });
     }

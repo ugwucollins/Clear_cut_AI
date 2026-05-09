@@ -30,7 +30,7 @@ const SignUpForm = () => {
       };
 
       const res = await ApiUrl.post("/register", UserInfo);
-      const data = res.data;
+      const data = await res.data;
 
       if (data.success) {
         setTimeout(() => {

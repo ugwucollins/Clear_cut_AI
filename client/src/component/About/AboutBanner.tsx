@@ -13,7 +13,7 @@ const AboutBanner = () => {
           initial={"hidden"}
           className="w-full"
         >
-          <div className="w-full max-w-xl h-80 shadow-2xl drop-shadow-2xl px-5 pb-5 flex justify-items-start items-end shadow-blue-800 rounded-xl relative">
+          <div className="w-full max-w-xl h-80 shadow-2xl drop-shadow-2xl px-5 pb-5 bg-[url('/images-1.jpg')] bg-center bg-cover flex justify-items-start items-end shadow-blue-800 rounded-xl relative">
             <div className="flex text-sm font-semibold px-4 py-3.5 rounded-lg items-center gap-x-2 bg-gray-600/20 border border-gray-400/30 w-full backdrop-blur-2xl">
               <BsCpuFill color="blue" />
               <span className="text-[10px] uppercase font-semibold">

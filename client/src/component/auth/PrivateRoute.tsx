@@ -1,10 +1,11 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { AuthPath, UserAuth } from "../../context/UserContext";
+import { AuthPath } from "../../context/UserContext";
 import { useEffect } from "react";
+import { UserAuthInfo } from "../../App";
 
 const PrivateRoute = () => {
   const router = useNavigate();
-  const { user }: any = UserAuth();
+  const { user }: any = UserAuthInfo();
 
   useEffect(() => {
     if (!user && user === null) {

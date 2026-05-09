@@ -8,7 +8,7 @@ import { TbApi } from "react-icons/tb";
 
 const HomeKeys = () => {
   return (
-    <div className="w-full pt-10 pb-14 flex flex-col justify-center items-center text-center min-h-[90vh]">
+    <div className="w-full pt-10 pb-20 flex flex-col justify-center items-center text-center min-h-[90vh]">
       <div className="flex flex-col gap-y-10">
         <div className="w-full text-center flex flex-col justify-center items-center">
           <TextAnimations
@@ -24,7 +24,7 @@ const HomeKeys = () => {
           </p>
         </div>
 
-        <div className="flex flex-row justify-center items-center flex-wrap gap-x-5 max-sm:gap-y-7">
+        <div className="flex flex-row justify-center items-center flex-wrap gap-x-5 gap-y-5 max-sm:gap-y-7">
           {KeyFeatures.map((item, index: number) => {
             const even = index % 2 === 0;
             return (

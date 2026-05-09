@@ -46,6 +46,7 @@ export type KeyCardProps = {
 export type PriceCardProps = {
   list: string[];
   topTitle: string;
+  plan: string;
   title: string;
   message: string;
   className?: string;
@@ -54,6 +55,7 @@ export type PriceCardProps = {
   ani?: boolean;
   path?: string;
   btn: string;
+  onclick?: () => void;
 };
 
 export type WorksCardProps = {
@@ -69,6 +71,15 @@ export type SocialIconsProps = {
 export type AccountProp = {
   title: string;
   type?: string;
+};
+
+export type ModalProp = {
+  Title: string;
+  OkayBtn: string;
+  CancelBtn: string;
+  Icon?: ReactElement;
+  Progress: () => void;
+  Cancel: () => void;
 };
 export type ContactCardProps = {
   icon: ReactElement;

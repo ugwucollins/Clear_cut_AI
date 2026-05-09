@@ -3,11 +3,12 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import UserModel from "../model/UserModel.js";
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
+import ActiveUserModel, { status } from "../model/AnalyticsModel.js";
 
-const { NODE_ENV, EMAIL, PASSWORD } = process.env;
+const { NODE_ENV, EMAIL, PASSWORD, JWT_SECRET } = process.env;
 export const Register = async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password);
 
   try {
     const existingUser = await UserModel.findOne({ email: email });
@@ -23,6 +24,63 @@ export const Register = async (req, res) => {
 
     const data = {
       name: name,
+      password: hashedPassword,
+      email: email,
+      month: month,
+      year: year,
+    };
+
+    const newUser = await UserModel.create(data);
+    const user = await newUser.save();
+
+    return res.status(201).json({
+      message: "User created Successfully",
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error" || error,
+      success: false,
+    });
+  }
+};
+
+
+export const RegisterAd = async (req, res) => {
+  const userId = req.userId
+  const { name, email, password,role,phoneNumber } = req.body;
+
+  try {
+    
+     if (!userId) {
+      return res.status(208).json({
+        message: "User not Vaild or nOt found",
+        success: false,
+      });
+    }
+     if (!name||!email||!phoneNumber||!password) {
+      return res.status(208).json({
+        message: "Please fill in All the Required Fields",
+        success: false,
+      });
+    }
+    const existingUser = await UserModel.findOne({ email: email });
+
+    if (existingUser) {
+      return res.status(208).json({
+        message: "User Already Exist ",
+        success: false,
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const data = {
+      name: name,
+      role: role,
+      phoneNumber: phoneNumber,
       password: hashedPassword,
       email: email,
       month: month,
@@ -73,6 +131,18 @@ export const Login = async (req, res) => {
         sameSite: NODE_ENV === "production" ? "none" : "Strict",
         maxAge: 24 * 60 * 60 * 1000,
       });
+
+      const data = {
+        userEmail: email,
+        activeUser: existingUser._id,
+        status: status.Login,
+        month: month,
+        year: year,
+      };
+
+      const actUser = await ActiveUserModel.create(data);
+      await actUser.save();
+
       return res.status(200).json({
         message: "Login Successfully",
         success: true,
@@ -95,7 +165,22 @@ export const Login = async (req, res) => {
 };
 
 export const LogOut = async (req, res) => {
+  const userId = req.userId;
+  console.log(userId);
+
   try {
+    const user = await UserModel.findById({ _id: userId });
+
+    const data = {
+      userEmail: user.email,
+      activeUser: user._id,
+      status: status.Logout,
+      month: month,
+      year: year,
+    };
+    const actUser = await ActiveUserModel.create(data);
+    await actUser.save();
+
     res.clearCookie("token", {
       httpOnly: true,
       secure: NODE_ENV === "production",
@@ -103,7 +188,7 @@ export const LogOut = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "cleared cookies Successfully,logged Out",
+      message: user.name + ",logged Out successfully",
       success: true,
     });
   } catch (error) {
@@ -177,7 +262,7 @@ export const Forget_Password = async (req, res) => {
       <h1>Hi ${user.lastName} ${user.firstName} </h1>
       <br/>
       <h2>Please Click the Link Below to Change your Password</h2>
-      <a href="https://nelly-j.vercel.app/auth/reset-password/${user._id}/${token}">Click Here, Please Don't Share the Link</a> 
+      <a href="https://nelly-j.vercel.app/auth/reset_password/${user._id}/${token}">Click Here, Please Don't Share the Link</a>
 
       <h3>If You Didn't Request this Change, Please Ignore this Email</h3>
       <h3>Thanks</h3>
@@ -259,6 +344,8 @@ export const Reset_Password = async (req, res) => {
       data: newUser,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(501).json({
       message: "Sever Error In Reset_Password",
       error: error,

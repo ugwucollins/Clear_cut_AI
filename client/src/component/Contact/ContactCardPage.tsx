@@ -74,7 +74,7 @@ const ContactCardPage = () => {
           <h1 className="text-2xl font-semibold pb-3">connect with us</h1>
           <div className="w-full flex flex-row gap-5 max-sm:justify-around item-center flex-wrap">
             {ContactIcons.map((icon, index) => (
-              <Link to={icon.path!}>
+              <Link key={index} to={icon.path!}>
                 <div
                   data-aos="zoom-in"
                   data-aos-duration={1000 * index}
@@ -92,13 +92,13 @@ const ContactCardPage = () => {
           data-aos="flip-down"
           className="flex text-left flex-col gap-y-3.5 p-7.5 rounded-xl shadow-lg drop-shadow-xl shadow-blue-800/50 shadow-inset border border-blue-800/70"
         >
-          <h1 className="text-2xl font-semibold"> Join our Newsletter</h1>
+          <h1 className="text-2xl font-semibold"> Join our News letter</h1>
           <p className="text-gray-400 opacity-90">
             Get the latest AI updates and removal tips
           </p>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full py-2 flex justify-center item-center gap-x-1.5"
+            className="w-full py-2 flex justify-center item-center gap-x-1.5 gap-y-2 flex-row max-[450px]:flex-col"
           >
             <InputField
               value={register("email")}
@@ -108,7 +108,11 @@ const ContactCardPage = () => {
               label=""
               className="w-full rounded-md hover:rounded-xl transition-all duration-200"
             />
-            <Button loading={isSubmitting} className="mt-1.5" title="Join" />
+            <Button
+              loading={isSubmitting}
+              className="mt-1.5 max-[450px]:w-full"
+              title="Join"
+            />
           </form>
         </div>
       </div>

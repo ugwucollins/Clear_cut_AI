@@ -7,6 +7,7 @@ import PasswordM from "./PasswordM";
 import LogOut from "./LogOut";
 import ProfileHeader from "./ProfileHeader";
 import Aos from "aos";
+import Payment from "./Payment";
 
 const Profile = () => {
   return (
@@ -65,7 +66,7 @@ export const ProfileContent = () => {
           )}
         </div>
 
-        {/* <div>{CurrentIndex === AccountType.My_Orders && <OrdersM />}</div> */}
+        <div>{CurrentIndex === AccountType.Payment && <Payment />}</div>
 
         <div>{CurrentIndex === AccountType.Logout && <LogOut />}</div>
       </div>

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 export const getAllUsers = async (req, res) => {
   try {
-    const allUsers = await UserModel.find({});
+    const allUsers = await UserModel.find({}).sort({ createdAt: -1 });
 
     if (allUsers.length === 0) {
       return res.status(404).json({
@@ -102,7 +102,7 @@ export const updateUser = async (req, res) => {
 
     const user = await UserModel.findByIdAndUpdate({ _id: userId }, data, {
       new: true,
-    });
+    }).select("-password");
 
     return res.status(200).json({
       message: "User updated Successfully",
@@ -168,6 +168,12 @@ export const updateUserStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
+    if (!status) {
+      return res.status(404).json({
+        message: "No status value Found ",
+        success: false,
+      });
+    }
     const existingUser = await UserModel.findById({ _id: id });
 
     if (!existingUser) {
@@ -184,6 +190,8 @@ export const updateUserStatus = async (req, res) => {
     const user = await UserModel.findByIdAndUpdate({ _id: id }, data, {
       new: true,
     });
+
+    await user.save();
 
     return res.status(200).json({
       message: "User status updated Successfully",

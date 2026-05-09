@@ -1,15 +1,63 @@
-import { useState } from "react";
-import type { PriceCardProps } from "../../utils/types";
+import { useEffect, useState } from "react";
+// import type { PriceCardProps } from "../../utils/types";
 import PriceCard from "./PriceCard";
 import { motion } from "framer-motion";
 import { XSlider, YSlider } from "../../context/Animation";
-import { PriceArray } from "../../context/assets";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { PlanAuth } from "../../context/PlanContext";
+import EmptyItems from "../../context/EmptyItems";
+import { BiDollar } from "react-icons/bi";
+// import { toast } from "react-toastify";
+// import { ApiUrl } from "../../context/ApiUrl";
 
 const PriceHeader = () => {
   const [active, setActive] = useState(1);
-  function handleActive(index: number, item: PriceCardProps) {
-    console.log(item);
+  const [searchParams] = useSearchParams();
+  const reference: any = searchParams.get("reference");
+  console.log(reference);
+  const router = useNavigate();
+  const { plans }: any = PlanAuth();
+  console.log(plans);
 
+  // const handlePayMent = async () => {
+  //   try {
+  //     toast.success(reference.status, {
+  //       toastId: "p",
+  //     });
+  //     const res = await ApiUrl.put("/transaction/verify", {
+  //       ref: reference,
+  //     });
+  //     const data = await res.data;
+  //     if (data.success) {
+  //       toast.success(data.message, {
+  //         toastId: "p1",
+  //       });
+
+  //       setTimeout(() => {
+  //         localStorage.removeItem("hey");
+  //         router(reference ? data.url : "/workspace", {
+  //           replace: true,
+  //         });
+  //       }, 1000);
+  //     } else {
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  useEffect(() => {
+    if (reference) {
+      setTimeout(() => {
+        toast.success("Start Removing image Background");
+        router("/workspace", { replace: true });
+      }, 1000);
+      // handlePayMent();
+    }
+  }, [reference]);
+
+  async function handleActive(index: number) {
     setActive(index);
   }
 
@@ -32,7 +80,7 @@ const PriceHeader = () => {
       </motion.div>
 
       <div className="w-full flex flex-row flex-wrap gap-8 justify-center items-center">
-        {PriceArray.map((item, index: number) => {
+        {plans.reverse().map((item: any, index: number) => {
           const even = index % 2 === 0;
           return (
             <div key={index} className="w-full max-w-82.5">
@@ -40,17 +88,19 @@ const PriceHeader = () => {
                 variants={YSlider(even ? 100 : -100, 1, 0.5, index)}
                 whileInView={"show"}
                 initial={"hidden"}
-                onClick={() => handleActive(index, item)}
+                onClick={() => handleActive(index)}
                 className=" w-full max-w-82 max-sm:hidden"
               >
                 <PriceCard
                   key={index}
                   message={item.message}
-                  title={item.title}
-                  topTitle={item.topTitle}
-                  btn={item.btn}
+                  title={item.plan}
+                  topTitle={item.title}
+                  btn={item.btnText}
                   value={item.value}
+                  plan={item.plan}
                   list={item.list}
+                  // onclick={() => handleBuyCredit(item)}
                   amount={item.amount}
                   ani={index === active}
                 />
@@ -59,7 +109,7 @@ const PriceHeader = () => {
                 variants={XSlider(even ? 100 : -100, 1, 0.5, index)}
                 whileInView={"show"}
                 initial={"hidden"}
-                onClick={() => handleActive(index, item)}
+                onClick={() => handleActive(index)}
                 className=" w-full max-w-82 hidden max-sm:block"
               >
                 <PriceCard
@@ -70,13 +120,23 @@ const PriceHeader = () => {
                   btn={item.btn}
                   value={item.value}
                   list={item.list}
+                  plan={item.plan}
                   amount={item.amount}
                   ani={index === active}
+                  // onclick={() => handleBuyCredit(item)}
                 />
               </motion.div>
             </div>
           );
         })}
+
+        {!plans?.length && (
+          <EmptyItems
+            title="No  Active Price Plan"
+            icon={<BiDollar />}
+            btnText="Try Again"
+          />
+        )}
       </div>
     </div>
   );

@@ -6,12 +6,17 @@ import FirstCard from "./FirstCard";
 import { FaUserFriends } from "react-icons/fa";
 import type { KeyCardProps } from "../../utils/types";
 import { useState } from "react";
+import { AuthPath } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { UserAuthInfo } from "../../App";
 
 const AboutHeader = () => {
+  const { user }: any = UserAuthInfo();
   const [active, setActive] = useState<number>(1);
   function handleActive(index: number) {
     setActive(index);
   }
+  const router = useNavigate();
 
   return (
     <div className="w-full min-h-screen pb-5">
@@ -40,10 +45,20 @@ const AboutHeader = () => {
             </p>
             <div className="flex py-2 flex-row flex-wrap gap-4">
               <Button
+                onClick={() => {
+                  user
+                    ? router("/workspace", { replace: true })
+                    : router(AuthPath + "signin", { replace: true });
+                }}
                 title="start Removing now"
                 className="text-sm shadow-lg drop-shadow-xl shadow-blue-800/50"
               />
               <Button
+                onClick={() =>
+                  router("/contact", {
+                    replace: true,
+                  })
+                }
                 title="watch demo"
                 className="bg-gray-600/20 text-sm outline outline-gray-600/50"
               />

@@ -1,13 +1,12 @@
-import { Link } from "react-router-dom";
-import Button from "../../context/Button";
-import { AuthPath, UserAuth } from "../../context/UserContext";
 import { motion } from "framer-motion";
 import { XSlider } from "../../context/Animation";
 import Aos from "aos";
 import { useEffect } from "react";
+import { ImageAuth } from "../../context/ImageContext";
 
 const HomeBanner = () => {
-  const { user }: any = UserAuth();
+  const { bgRemover }: any = ImageAuth();
+
   useEffect(() => {
     Aos.init({
       once: true,
@@ -18,7 +17,7 @@ const HomeBanner = () => {
   }, []);
 
   return (
-    <div className="w-full z-1 flex flex-row max-lg:flex-wrap  max-sm:justify-center justify-around gap-10 max-sm:gap-1 items-center min-h-[95vh] max-md:min-h-screen max-lg:pb-14">
+    <div className="w-full z-1 flex flex-row max-lg:flex-wrap  max-sm:justify-center justify-around gap-10 max-sm:gap-1 items-center min-h-[90vh] max-md:min-h-screen max-lg:pb-14">
       <motion.div
         variants={XSlider(-150, 1, 0.5, 1)}
         whileInView={"show"}
@@ -35,13 +34,25 @@ const HomeBanner = () => {
           Powered by Clear-cut Ai, Upload image to see the magic
         </p>
 
-        {user ? (
-          <Button title="Upload Image" className="my-5" />
-        ) : (
-          <Link to={AuthPath + "signin"}>
-            <Button title="Upload Image" className="my-5" />
-          </Link>
-        )}
+        <div className="relative pt-3">
+          <input
+            onChange={(e) => {
+              const file: FileList | null | any = e.target.files;
+              console.log(file[0]);
+              bgRemover(file[0]);
+            }}
+            type="file"
+            accept="image*"
+            id="image"
+            hidden
+          />
+          <label
+            htmlFor="image"
+            className="px-6 disabled:opacity-70 py-2.5 hover:cursor-pointer hover:outline-2 hover:rounded-full hover:outline-blue-800 hover:bg-transparent bg-blue-800 rounded-lg hover:font-bold transition-all text-lg font-semibold capitalize"
+          >
+            Upload Image
+          </label>
+        </div>
       </motion.div>
 
       <motion.div

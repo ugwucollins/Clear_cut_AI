@@ -12,6 +12,7 @@ const TextAnimations = ({
       {Array.from(title).map((text: any, index: number) => {
         return (
           <motion.div
+            key={index}
             className={className}
             initial={{
               opacity: 0,

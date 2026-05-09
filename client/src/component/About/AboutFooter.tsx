@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { YSlider } from "../../context/Animation";
 import Button from "../../context/Button";
 import { Link } from "react-router-dom";
+import { UserAuthInfo } from "../../App";
 
 const AboutFooter = () => {
+  const { user }: any = UserAuthInfo();
   return (
     <div>
       <motion.div
@@ -21,10 +23,12 @@ const AboutFooter = () => {
             their visual content production
           </p>
           <div className="flex py-2 flex-row flex-wrap gap-4">
-            <Button
-              title="try it for free"
-              className="text-sm shadow drop-shadow-xl shadow-blue-800/50"
-            />
+            <Link to={user ? "/workspace" : "/contact"}>
+              <Button
+                title="try it for free"
+                className="text-sm shadow drop-shadow-xl shadow-blue-800/50"
+              />
+            </Link>
             <Link to={"/contact"}>
               <Button
                 title="contact support"

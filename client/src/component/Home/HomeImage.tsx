@@ -1,13 +1,10 @@
 import { motion } from "framer-motion";
-import Button from "../../context/Button";
 import { RiUpload2Fill } from "react-icons/ri";
-import { AuthPath, UserAuth } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import { YSlider } from "../../context/Animation";
+import { ImageAuth } from "../../context/ImageContext";
 
 const HomeImage = () => {
-  const { user }: any = UserAuth();
-  const router = useNavigate();
+  const { bgRemover }: any = ImageAuth();
   return (
     <div className="w-full flex flex-col gap-y-5 justify-center items-center text-center min-h-100 py-5 max-md:py-10 pb-14">
       <motion.div
@@ -29,17 +26,27 @@ const HomeImage = () => {
                 or click the button below to select a file from your computer
               </p>
             </div>
-            <Button
-              title="select image"
-              onClick={() => {
-                user
-                  ? alert("uploaded successfully")
-                  : router(AuthPath + "/signin", {
-                      replace: true,
-                    });
-              }}
-              className="bg-gray-500/20 text-sm hover:outline-gray-200/50"
-            />
+
+            <div className="pt-2.5">
+              <label
+                htmlFor="image"
+                className="px-6 disabled:opacity-70 py-2.5 hover:cursor-pointer hover:outline-2 hover:rounded-full hover:bg-transparent  rounded-lg hover:font-bold transition-all  font-semibold capitalize bg-gray-500/20 text-sm hover:outline-gray-200/50"
+              >
+                select Image
+              </label>
+
+              <input
+                onChange={(e) => {
+                  const file: FileList | null | any = e.target.files;
+                  bgRemover(file[0]);
+                }}
+                type="file"
+                name="image"
+                accept="image*"
+                id="image"
+                hidden
+              />
+            </div>
           </div>
         </div>
       </motion.div>

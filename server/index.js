@@ -6,16 +6,21 @@ import { DBConnection } from "./src/connection/mongoDBCon.js";
 import authRouter from "./src/routes/AuthRoute.js";
 import usersRouter from "./src/routes/UsersRoute.js";
 import contactRouter from "./src/routes/ContactRoute.js";
+import imageRouter from "./src/routes/ImageRoute.js";
+import transactionRouter from "./src/routes/TransactionRoute.js";
+import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
+import planRouter from "./src/routes/PlanRoute.js";
 
 const app = express();
-const { PORT, API_PATH, ORIGIN_URL } = process.env;
+const { PORT, API_PATH, ORIGIN_URL, ORIGIN_URL2 } = process.env;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 DBConnection;
 app.use(
   cors({
-    origin: ORIGIN_URL,
+    origin: [ORIGIN_URL, ORIGIN_URL2],
     credentials: true,
   }),
 );
@@ -31,6 +36,10 @@ app.get(API_PATH, (req, res) => {
 app.use(API_PATH, authRouter);
 app.use(API_PATH, usersRouter);
 app.use(API_PATH, contactRouter);
+app.use(API_PATH, planRouter);
+app.use(API_PATH, imageRouter);
+app.use(API_PATH, transactionRouter);
+app.use(API_PATH, AnalyticsRouter);
 
 // app.use(errorHandler);
 app.use(async (req, res, next) => {

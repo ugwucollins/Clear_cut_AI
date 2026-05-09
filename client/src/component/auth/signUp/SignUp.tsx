@@ -9,7 +9,7 @@ const SignUp = () => {
     Aos.init({ duration: 1000, once: true, easing: "ease-in-out", delay: 10 });
   }, []);
   return (
-    <Container className="min-h-screen flex items-center justify-center">
+    <Container className="min-h-screen flex items-center justify-center relative">
       <div
         data-aos="flip-down"
         className="flex flex-col w-full max-w-125 p-5 py-10

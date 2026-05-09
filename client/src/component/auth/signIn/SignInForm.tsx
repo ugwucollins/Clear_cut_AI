@@ -8,10 +8,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthPath, UserAuth } from "../../../context/UserContext";
 import { ApiUrl } from "../../../context/ApiUrl";
 import { toast } from "react-toastify";
+import { UserAuthInfo } from "../../../App";
 
 const SignInForm = () => {
   const router = useNavigate();
-  const { setIsLoggedIn, setUser }: any = UserAuth();
+  const { setIsLoggedIn }: any = UserAuth();
+  const { setUser }: any = UserAuthInfo();
   const {
     register,
     handleSubmit,
@@ -30,7 +32,8 @@ const SignInForm = () => {
       };
 
       const res = await ApiUrl.post("/login", UserInfo);
-      const data = res.data;
+
+      const data = await res.data;
 
       if (data.success) {
         setTimeout(() => {
@@ -73,7 +76,7 @@ const SignInForm = () => {
         </div>
         <div className="w-full text-right pt-2 pb-0.5">
           <Link
-            to={"/forget-password"}
+            to={AuthPath + "forget_password"}
             className="underline text-blue-800 font-semibold hover:font-bold transition-all"
           >
             Forget Password

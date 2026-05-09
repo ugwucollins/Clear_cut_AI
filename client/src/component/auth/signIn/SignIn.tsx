@@ -3,10 +3,23 @@ import Container from "../../../context/Container";
 import Logo from "../../Bars/Logo";
 import SignInForm from "./SignInForm";
 import { useEffect } from "react";
+import { UserAuthInfo } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const { user }: any = UserAuthInfo();
+  const router = useNavigate();
+
   useEffect(() => {
     Aos.init({ duration: 1000, once: true, easing: "ease-in-out", delay: 10 });
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (user) {
+        router("/", { replace: true });
+      }
+    }, 1000);
   }, []);
 
   return (

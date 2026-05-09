@@ -17,9 +17,13 @@ contactRouter.get("/contact", protectedAuth, getAllContact);
 contactRouter.get("/contact/get/:id", protectedAuth, getContactById);
 contactRouter.post("/contact/create", createContact);
 contactRouter.get("/contact/get", protectedAuth, getContactDetails);
-contactRouter.patch("/contact/update", protectedAuth, updateContact);
-contactRouter.put("/contact/update", protectedAuth, updateContact);
-contactRouter.put("/contact/update/status", protectedAuth, updateContactStatus);
-contactRouter.delete("/contact/delete", protectedAuth, deleteContact);
+contactRouter.patch("/contact/update/:id", protectedAuth, updateContact);
+contactRouter.put("/contact/update/:id", protectedAuth, updateContact);
+contactRouter.put(
+  "/contact/update/status/id",
+  protectedAuth,
+  updateContactStatus,
+);
+contactRouter.delete("/contact/delete/:id", protectedAuth, deleteContact);
 
 export default contactRouter;

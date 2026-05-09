@@ -3,7 +3,7 @@ import { month, year } from "../connection/TimeExporter.js";
 
 export const getAllContact = async (req, res) => {
   try {
-    const allContact = await ContactModel.find({});
+    const allContact = await ContactModel.find({}).sort({ createdAt: -1 });
 
     if (allContact.length === 0) {
       return res.status(404).json({
@@ -96,10 +96,10 @@ export const createContact = async (req, res) => {
 
     const data = {
       name: name,
-      email: email,
+      userEmail: email,
       subject: subject,
       message: message,
-      userId: userId,
+      createdBy: userId,
       year: year,
       month: month,
     };
@@ -148,6 +148,7 @@ export const updateContact = async (req, res) => {
         new: true,
       },
     );
+    await updateContact.save();
 
     return res.status(200).json({
       message: "Contact Updated Successfully",

@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    roles: {
+    role: {
       type: String,
       required: true,
       enum: [ADMIN_ROLE, USERS_ROLE],
@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 4,
+    },
+    plan: {
+      type: String,
+      enum: ["Basic", "Advance", "Business"],
     },
     status: {
       type: String,

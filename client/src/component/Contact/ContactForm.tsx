@@ -47,6 +47,7 @@ const ContactForm = () => {
           empty();
         }, 1000);
       } else {
+        console.error(...info.message);
         toast.error(info.message);
       }
     } catch (error: any) {
@@ -58,6 +59,7 @@ const ContactForm = () => {
       });
     }
   };
+
   return (
     <div data-aos="zoom-in" className="w-full pb-10 pt-14">
       <div
