@@ -47,20 +47,18 @@ export const Register = async (req, res) => {
   }
 };
 
-
 export const RegisterAd = async (req, res) => {
-  const userId = req.userId
-  const { name, email, password,role,phoneNumber } = req.body;
+  const userId = req.userId;
+  const { name, email, password, role, phoneNumber } = req.body;
 
   try {
-    
-     if (!userId) {
+    if (!userId) {
       return res.status(208).json({
         message: "User not Vaild or nOt found",
         success: false,
       });
     }
-     if (!name||!email||!phoneNumber||!password) {
+    if (!name || !email || !phoneNumber || !password) {
       return res.status(208).json({
         message: "Please fill in All the Required Fields",
         success: false,
@@ -262,7 +260,7 @@ export const Forget_Password = async (req, res) => {
       <h1>Hi ${user.lastName} ${user.firstName} </h1>
       <br/>
       <h2>Please Click the Link Below to Change your Password</h2>
-      <a href="https://nelly-j.vercel.app/auth/reset_password/${user._id}/${token}">Click Here, Please Don't Share the Link</a>
+      <a href="https://clear-cut-ai-five.vercel.app/api/auth/reset_password/${user._id}/${token}">Click Here, Please Don't Share the Link</a>
 
       <h3>If You Didn't Request this Change, Please Ignore this Email</h3>
       <h3>Thanks</h3>

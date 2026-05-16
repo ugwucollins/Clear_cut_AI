@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "The main entry point of the application is index.js, and it includes scripts for starting the server and running it in development mode for ai image background Remover Api. The author of the project is Ugwu Collins, and it is licensed under ISC.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
