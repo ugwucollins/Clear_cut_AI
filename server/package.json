@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "This package.json file defines a Node.js project named server with version 1.0.0. It includes various dependencies such as Express for building the server, Mongoose for MongoDB interactions, and several libraries for image processing and authentication. The project also uses nodemon for development to automatically restart the server on code changes. The main entry point of the application is index.js, and it includes scripts for starting the server and running it in development mode. The author of the project is Ugwu Collins, and it is licensed under ISC.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
