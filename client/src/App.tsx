@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-
+import { Analytics } from "@vercel/analytics/react";
 import NotFoundPage from "./pages/NotFoundPage";
 import UserContext, { AuthPath, UserAuth } from "./context/UserContext";
 import SignIn from "./component/auth/signIn/SignIn";
@@ -100,6 +100,8 @@ const App = () => {
           </PlanContext>
         </UserContext>
       </createUserContext.Provider>
+
+      <Analytics />
     </div>
   );
 };

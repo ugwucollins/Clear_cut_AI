@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import UserContext from "./Context/UserContext.tsx";
 import "aos/dist/aos.css";
+import { Analytics } from "@vercel/analytics/react";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -27,5 +28,6 @@ createRoot(document.getElementById("root")!).render(
         />
       </UserContext>
     </StrictMode>
+    <Analytics />
   </BrowserRouter>,
 );
