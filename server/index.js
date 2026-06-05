@@ -1,15 +1,15 @@
-import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import "dotenv/config";
+import express from "express";
 import { DBConnection } from "./src/connection/mongoDBCon.js";
+import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
 import authRouter from "./src/routes/AuthRoute.js";
-import usersRouter from "./src/routes/UsersRoute.js";
 import contactRouter from "./src/routes/ContactRoute.js";
 import imageRouter from "./src/routes/ImageRoute.js";
-import transactionRouter from "./src/routes/TransactionRoute.js";
-import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
 import planRouter from "./src/routes/PlanRoute.js";
+import transactionRouter from "./src/routes/TransactionRoute.js";
+import usersRouter from "./src/routes/UsersRoute.js";
 
 const app = express();
 const { PORT, API_PATH, ORIGIN_URL, ORIGIN_URL2 } = process.env;
