@@ -93,14 +93,11 @@ app.get(API_PATH, (req, res) => {
 // seed
 export const createPlan = async () => {
   console.log("Creating Price Plan");
-   
-  try {
-    
+       
     // console.log(title, plan, list, message, amount, btnText, value);
  for (const key in PriceArray) {
   const pricePlan = PriceArray[key] 
-   const priceArrayDes = pricePlan.list.split("\n");
-  console.log(priceArrayDes);
+   const priceArrayDes = pricePlan.list|| pricePlan.list.split("\n");
 
    const existPlan = await PlanModel.findOne({title:pricePlan.title})
    const data = {
@@ -118,7 +115,7 @@ export const createPlan = async () => {
    };
 
    if (existPlan) {
-     throw new Error("Plan already exist");
+     return "Plan already exist";
    } else {
     
      const newPlan = await PlanModel.create(data);
@@ -131,10 +128,7 @@ export const createPlan = async () => {
   
      
  }
-    
-  } catch (error) {
-      return error.message || error || "Internal Server Error"
-  }
+  
 };
 createPlan()
 
