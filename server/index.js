@@ -17,7 +17,7 @@ const { PORT, API_PATH, ORIGIN_URL, ORIGIN_URL2 } = process.env;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-DBConnection;
+DBConnection();
 app.use(
   cors({
     origin: [ORIGIN_URL, ORIGIN_URL2],

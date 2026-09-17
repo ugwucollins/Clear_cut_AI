@@ -7,10 +7,11 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AuthPath, UserAuth } from "./UserContext";
+import { createUserContext } from "../App";
 import { ApiUrl } from "./ApiUrl";
-import { UserAuthInfo } from "../App";
 import { ImageBlob } from "./ImageBlob";
+import { AuthPath, UserAuth } from "./UserContext";
+
 
 const createImageContext = createContext({});
 
@@ -21,7 +22,7 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   const [result, setResult] = useState(null);
   const [time, setTime] = useState<number | null | any>(null);
   const [resultImage, setResultImage] = useState<string | null>(null);
-  const { user }: any = UserAuthInfo();
+  const { user }: any = useContext(createUserContext);
   const { setCredit, credit }: any = UserAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -236,7 +237,9 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    getRemovedImages();
+    if (user) {
+      getRemovedImages();
+    }
   }, []);
 
   const values = {

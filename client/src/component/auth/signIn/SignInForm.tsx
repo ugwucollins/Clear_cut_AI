@@ -1,18 +1,18 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
-import InputField from "../../../context/InputField";
-import type { SignInFormValues } from "../../../utils/FormValues/SignInFormValues";
-import Button from "../../../context/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema } from "../../../utils/Schema/signInSchema";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthPath, UserAuth } from "../../../context/UserContext";
-import { ApiUrl } from "../../../context/ApiUrl";
 import { toast } from "react-toastify";
 import { UserAuthInfo } from "../../../App";
+import { ApiUrl } from "../../../context/ApiUrl";
+import Button from "../../../context/Button";
+import InputField from "../../../context/InputField";
+import { AuthPath, UserAuth } from "../../../context/UserContext";
+import type { SignInFormValues } from "../../../utils/FormValues/SignInFormValues";
+import { signInSchema } from "../../../utils/Schema/signInSchema";
 
 const SignInForm = () => {
   const router = useNavigate();
-  const { setIsLoggedIn }: any = UserAuth();
+  const { setIsLoggedIn, setCredit }: any = UserAuth();
   const { setUser }: any = UserAuthInfo();
   const {
     register,
@@ -44,6 +44,9 @@ const SignInForm = () => {
         localStorage.setItem("isLoggedIn", JSON.stringify(true));
         setIsLoggedIn(true);
         setUser(data.data);
+        console.log(data.data);
+
+        setCredit(data?.data?.coins);
         router("/", { replace: true });
       } else {
         toast.error(data.message);
