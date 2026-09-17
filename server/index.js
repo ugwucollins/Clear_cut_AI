@@ -3,8 +3,6 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { DBConnection } from "./src/connection/mongoDBCon.js";
-import { month, year } from './src/connection/TimeExporter.js';
-import PlanModel from './src/model/PlanModel.js';
 import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
 import authRouter from "./src/routes/AuthRoute.js";
 import contactRouter from "./src/routes/ContactRoute.js";
@@ -37,99 +35,99 @@ app.get(API_PATH, (req, res) => {
 });
 
 // seed
- const PriceArray = [
-  {
-    title: "Basic",
-    plan: "Basic",
+//  const PriceArray = [
+//   {
+//     title: "Basic",
+//     plan: "Basic",
 
-    amount: "100",
-    message: "Perfect for trying out our AI features",
-    value: 100 * 100,
-    list: [
-      "10 credits per month",
-      "Standard Definition (SD)",
-      "Single image processing",
-      "Standard quality",
-    ],
-    btn: "Get Started",
-    path: "",
-    topTitle: "Basic Use",
-  },
+//     amount: "100",
+//     message: "Perfect for trying out our AI features",
+//     value: 100 * 100,
+//     list: [
+//       "10 credits per month",
+//       "Standard Definition (SD)",
+//       "Single image processing",
+//       "Standard quality",
+//     ],
+//     btn: "Get Started",
+//     path: "",
+//     topTitle: "Basic Use",
+//   },
 
-  {
-    title: "pro",
-    plan: "Advance",
-    amount: "200",
-    message: "Best for creative professionals",
-    value: 200 * 100,
-    list: [
-      "20 credits per month",
-      "High Definition (SD)",
-      "Batch processing (50 images) ",
-      "Priority support",
-    ],
-    btn: "Choose Pro",
-    path: "",
-    topTitle: "Most popular",
-  },
+//   {
+//     title: "pro",
+//     plan: "Advance",
+//     amount: "200",
+//     message: "Best for creative professionals",
+//     value: 200 * 100,
+//     list: [
+//       "20 credits per month",
+//       "High Definition (SD)",
+//       "Batch processing (50 images) ",
+//       "Priority support",
+//     ],
+//     btn: "Choose Pro",
+//     path: "",
+//     topTitle: "Most popular",
+//   },
 
-  {
-    title: "business",
-    plan: "Business",
-    amount: "500",
-    message: "Advanced tools for teams and scale",
-    value: 500 * 100,
-    list: [
-      "50 credits per month",
-      "Standard Definition (SD)",
-      "Single image processing",
-      "No Api Access",
-    ],
-    btn: "Contact Sales",
-    path: "",
-    topTitle: "Contact popular",
-  },
-];
-export const createPlan = async () => {
-  console.log("Creating Price Plan");
+//   {
+//     title: "business",
+//     plan: "Business",
+//     amount: "500",
+//     message: "Advanced tools for teams and scale",
+//     value: 500 * 100,
+//     list: [
+//       "50 credits per month",
+//       "Standard Definition (SD)",
+//       "Single image processing",
+//       "No Api Access",
+//     ],
+//     btn: "Contact Sales",
+//     path: "",
+//     topTitle: "Contact popular",
+//   },
+// ];
+// export const createPlan = async () => {
+//   console.log("Creating Price Plan");
        
-    // console.log(title, plan, list, message, amount, btnText, value);
- for (const key in PriceArray) {
-  const pricePlan = PriceArray[key] 
-   const priceArrayDes = pricePlan.list|| pricePlan.list.split("\n");
+//     // console.log(title, plan, list, message, amount, btnText, value);
+//  for (const key in PriceArray) {
+//   const pricePlan = PriceArray[key] 
+//    const priceArrayDes = pricePlan.list|| pricePlan.list.split("\n");
 
-   const existPlan = await PlanModel.findOne({title:pricePlan.title})
-   const data = {
-     title: pricePlan.title,
-     plan: pricePlan.plan,
-     list: priceArrayDes,
-     amount: pricePlan.amount,
-     btnText: pricePlan.btn,
-     value: pricePlan.value,
-     // status: status,
-     message: pricePlan.message,
-    createdBy: "6aac20710ccbed0bfdaf8131",
-     year: year,
-     month: month,
-   };
+//    const existPlan = await PlanModel.findOne({title:pricePlan.title})
+//    const data = {
+//      title: pricePlan.title,
+//      plan: pricePlan.plan,
+//      list: priceArrayDes,
+//      amount: pricePlan.amount,
+//      btnText: pricePlan.btn,
+//      value: pricePlan.value,
+//      // status: status,
+//      message: pricePlan.message,
+//     createdBy: "6aac20710ccbed0bfdaf8131",
+//      year: year,
+//      month: month,
+//    };
 
-   if (existPlan) {
-     return "Plan already exist";
-   } else {
+//    if (existPlan) {
+//      return "Plan already exist";
+//    } else {
     
-     const newPlan = await PlanModel.create(data);
+//      const newPlan = await PlanModel.create(data);
     
-     const Plan = await newPlan.save();
-     console.log(Plan);
+//      const Plan = await newPlan.save();
+//      console.log(Plan);
     
-     return "Price Plan Created Successfully"
-   }
+//      return "Price Plan Created Successfully"
+//    }
   
      
- }
+//  }
   
-};
-createPlan()
+// };
+// createPlan()
 
 
 app.use(API_PATH, authRouter);
