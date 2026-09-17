@@ -1,4 +1,43 @@
-export const PriceArray = [
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import "dotenv/config";
+import express from "express";
+import { DBConnection } from "./src/connection/mongoDBCon.js";
+import { month, year } from './src/connection/TimeExporter.js';
+import PlanModel from './src/model/PlanModel.js';
+import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
+import authRouter from "./src/routes/AuthRoute.js";
+import contactRouter from "./src/routes/ContactRoute.js";
+import imageRouter from "./src/routes/ImageRoute.js";
+import planRouter from "./src/routes/PlanRoute.js";
+import transactionRouter from "./src/routes/TransactionRoute.js";
+import usersRouter from "./src/routes/UsersRoute.js";
+
+const app = express();
+const { PORT, API_PATH, ORIGIN_URL, ORIGIN_URL2 } = process.env;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+DBConnection();
+app.use(
+  cors({
+    origin: [ORIGIN_URL, ORIGIN_URL2],
+    credentials: true,
+  }),
+);
+
+app.use(cookieParser());
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+app.get(API_PATH, (req, res) => {
+  res.send("Hello World! New Api");
+});
+
+// seed
+ const PriceArray = [
   {
     title: "Basic",
     plan: "Basic",
@@ -51,46 +90,6 @@ export const PriceArray = [
     topTitle: "Contact popular",
   },
 ];
-
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import "dotenv/config";
-import express from "express";
-import { DBConnection } from "./src/connection/mongoDBCon.js";
-import { month, year } from './src/connection/TimeExporter.js';
-import PlanModel from './src/model/PlanModel.js';
-import AnalyticsRouter from "./src/routes/AnalyticsRoute.js";
-import authRouter from "./src/routes/AuthRoute.js";
-import contactRouter from "./src/routes/ContactRoute.js";
-import imageRouter from "./src/routes/ImageRoute.js";
-import planRouter from "./src/routes/PlanRoute.js";
-import transactionRouter from "./src/routes/TransactionRoute.js";
-import usersRouter from "./src/routes/UsersRoute.js";
-
-const app = express();
-const { PORT, API_PATH, ORIGIN_URL, ORIGIN_URL2 } = process.env;
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-DBConnection();
-app.use(
-  cors({
-    origin: [ORIGIN_URL, ORIGIN_URL2],
-    credentials: true,
-  }),
-);
-
-app.use(cookieParser());
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-app.get(API_PATH, (req, res) => {
-  res.send("Hello World! New Api");
-});
-
-// seed
 export const createPlan = async () => {
   console.log("Creating Price Plan");
        
@@ -152,3 +151,6 @@ app.use(async (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
