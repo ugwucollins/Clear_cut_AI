@@ -1,7 +1,5 @@
-import ImageModel from "../model/ImageModel.js";
-import fs from "fs";
 import dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary";
+import ImageModel from "../model/ImageModel.js";
 // import Image from "../model/ImageModel.js";
 // Load environment variables from .env file
 dotenv.config();
@@ -13,11 +11,9 @@ const BG_API_KEY_R = process.env.BG_API_KEY_R2;
 import { month, year } from "../connection/TimeExporter.js";
 // import { Rembg } from "@xixiyahaha/rembg-node";
 // import sharp from "sharp";
+import connectionCloudinary from "../middleware/imageMiddleware.js";
+import ActiveUserModel from "../model/AnalyticsModel.js";
 import UserModel from "../model/UserModel.js";
-import connectionCloudinary, {
-  ImageUpload,
-} from "../middleware/imageMiddleware.js";
-import ActiveUserModel, { status } from "../model/AnalyticsModel.js";
 // import axios from "axios";
 
 export const getAllImage = async (req, res) => {
@@ -211,7 +207,7 @@ export const removeImage = async (req, res) => {
       success: true,
       result: img,
       data: {
-        image: image,
+        image:generatedImage|| image,
         resultImage: img,
         credit: user.coins - 2,
       },
@@ -423,6 +419,7 @@ export const updateImageStatus = async (req, res) => {
 export const updateImageType = async (req, res) => {
   const { id } = req.params;
   const { type } = req.body;
+  
 
   try {
     const existingImage = await ImageModel.findById({ _id: id });

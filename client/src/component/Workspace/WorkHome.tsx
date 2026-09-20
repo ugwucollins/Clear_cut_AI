@@ -5,15 +5,15 @@ import Button from "../../context/Button";
 
 import { XSlider, YSlider } from "../../context/Animation";
 // import { useNavigate } from "react-router-dom";
-import { RiUploadCloud2Fill } from "react-icons/ri";
-import { BsTrashFill } from "react-icons/bs";
-import { ImageAuth } from "../../context/ImageContext";
 import { BiDownload, BiLoader } from "react-icons/bi";
-import ImageHistory from "./ImageHistory";
-import Loader from "../../context/Loader";
-import { toast } from "react-toastify";
-import { UserAuth } from "../../context/UserContext";
+import { BsTrashFill } from "react-icons/bs";
+import { RiUploadCloud2Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ImageAuth } from "../../context/ImageContext";
+import Loader from "../../context/Loader";
+import { UserAuth } from "../../context/UserContext";
+import ImageHistory from "./ImageHistory";
 
 const WorkHome = () => {
   const {
@@ -31,6 +31,7 @@ const WorkHome = () => {
 
   const router = useNavigate();
   const online = window.navigator.onLine;
+
 
   useEffect(() => {
     Aos.init({
@@ -99,7 +100,7 @@ const WorkHome = () => {
                         }}
                         type="file"
                         name="image"
-                        accept="image*"
+                        accept="image/*"
                         id="image"
                         hidden
                       />

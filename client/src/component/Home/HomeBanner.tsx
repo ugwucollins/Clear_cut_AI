@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { XSlider } from "../../context/Animation";
 import Aos from "aos";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { XSlider } from "../../context/Animation";
 import { ImageAuth } from "../../context/ImageContext";
 
 const HomeBanner = () => {
@@ -38,11 +38,10 @@ const HomeBanner = () => {
           <input
             onChange={(e) => {
               const file: FileList | null | any = e.target.files;
-              console.log(file[0]);
               bgRemover(file[0]);
             }}
             type="file"
-            accept="image*"
+            accept="image/*"
             id="image"
             hidden
           />

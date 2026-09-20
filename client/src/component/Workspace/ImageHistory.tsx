@@ -1,13 +1,14 @@
-import { useEffect } from "react";
-import { ImageAuth } from "../../context/ImageContext";
 import Aos from "aos";
-import Button from "../../context/Button";
+import { useEffect } from "react";
 import { BiImageAdd, BiLoader, BiPlus, BiUpload } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import { BsDownload } from "react-icons/bs";
-import Loader from "../../context/Loader";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Button from "../../context/Button";
+import { ImageAuth } from "../../context/ImageContext";
+import Loader from "../../context/Loader";
 
+export const Type = "public";
 const ImageHistory = () => {
   const { history, loadingData, PublicImages }: any = ImageAuth();
   const router = useNavigate();
@@ -18,7 +19,7 @@ const ImageHistory = () => {
       delay: 100,
     });
   }, []);
-  const Type = "public";
+
 
   return (
     <div className="w-full h-auto py-10">

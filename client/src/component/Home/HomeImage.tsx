@@ -42,7 +42,7 @@ const HomeImage = () => {
                 }}
                 type="file"
                 name="image"
-                accept="image*"
+                accept="image/*"
                 id="image"
                 hidden
               />

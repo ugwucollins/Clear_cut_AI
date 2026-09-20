@@ -34,7 +34,11 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
 
   async function bgRemover(img: any) {
     try {
-      // setLoading(true);
+
+      if (!img.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return
+      }
 
       if (!user) {
         toast.error("Please Login First");
@@ -118,11 +122,10 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
               // });
 
               const data = await res.data;
-              console.log(data);
 
               if (data.success) {
-                setResult(data.data);
-                console.log(data.data);
+                setResult(data.data.image);
+                console.log(data.data.image);
 
                 setCredit(data?.data?.credit);
                 console.log(result || data.data?.result);
@@ -191,7 +194,7 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
       const data = await res.data;
 
       if (data.success) {
-        console.log(data);
+
         setHistory(data.data);
         setResult(data.data);
       } else {
@@ -208,6 +211,7 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   async function PublicImages(image: any) {
     setLoadingData(true);
     const types = "public";
+
     try {
       if (image) {
         setLoadingData(true);

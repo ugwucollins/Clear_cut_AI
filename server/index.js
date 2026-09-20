@@ -43,6 +43,8 @@ app.use(API_PATH, planRouter);
 app.use(API_PATH, imageRouter);
 app.use(API_PATH, transactionRouter);
 app.use(API_PATH, AnalyticsRouter);
+// app.use(API_PATH, seedRouter);
+
 
 // app.use(errorHandler);
 app.use(async (req, res, next) => {
