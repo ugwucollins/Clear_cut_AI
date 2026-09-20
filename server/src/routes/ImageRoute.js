@@ -4,19 +4,19 @@ import {
   getAllImage,
   getImageById,
   getImageDetails,
+  removeImage,
   updateImage,
   updateImageStatus,
-  removeImage,
   updateImageType,
 } from "../controller/imageHandler.js";
-import { protectedAuth } from "../middleware/authMiddleware.js";
-import { protectedRoleAuth, ROLES } from "../middleware/roleMiddleware.js";
-import { upload } from "../middleware/imageMiddleware.js";
 import { UploadImageNew } from "../controller/upload.js";
+import { protectedAuth } from "../middleware/authMiddleware.js";
+import { upload } from "../middleware/imageMiddleware.js";
+import { protectedRoleAuth, ROLES } from "../middleware/roleMiddleware.js";
 
 const imageRouter = express.Router();
 
-imageRouter.get("/image", getAllImage);
+imageRouter.get("/image",protectedAuth, getAllImage);
 
 imageRouter.get(
   "/image/get/:id",
@@ -34,7 +34,7 @@ imageRouter.post(
   removeImage,
 );
 imageRouter.post(
-  "/image",
+  "/image/new",
   upload.single("image"),
   protectedAuth,
   UploadImageNew,

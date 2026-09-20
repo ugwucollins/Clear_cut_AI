@@ -1,5 +1,5 @@
-import { ApiUrl } from "./ApiUrl";
 import { toast } from "react-toastify";
+import { ApiUrl } from "./ApiUrl";
 
 export async function ImageBlob(blobUrl: any, type: string) {
   try {
@@ -9,13 +9,12 @@ export async function ImageBlob(blobUrl: any, type: string) {
     // formData.append("image", file, "clear_cut_ai.png");
     formData.append("image", blob, `clear_cut_ai_${type}.png`);
 
-    const res = await ApiUrl.post("/image", formData, {
+    const res = await ApiUrl.post("/image/new", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     const data = await res.data;
-    console.log(data);
     if (data.success) return data;
     return data;
   } catch (error: any) {
