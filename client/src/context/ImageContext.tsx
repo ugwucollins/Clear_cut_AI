@@ -52,7 +52,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
       if (img) {
         setTimeout(() => {
           router("/workspace", { replace: true });
-          // setLoading(false);
         }, 1000);
       }
     } catch (error: any) {
