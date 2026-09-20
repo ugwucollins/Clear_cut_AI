@@ -98,11 +98,8 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
             const result = URL.createObjectURL(blob);
             const bgImage = await ImageBlob(result, "new");
 
-            console.log("result", result);
-            console.log("bgImage", bgImage);
             const old = URL.createObjectURL(files);
             const oldImage = await ImageBlob(old, "old");
-            console.log("oldImage", oldImage);
 
             if (blob) {
               setImg(result);
@@ -114,7 +111,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
                 img: bgImage.url || bgImage.data.url,
                 imgImage: oldImage.url || oldImage.data.url,
                 time: timeSpent,
-                // status: "completed",
               };
               const res = await ApiUrl.post("/image/create", imageInfo);
               // const res = await ApiUrl.post("/image/create", imageInfo, {
@@ -125,10 +121,8 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
 
               if (data.success) {
                 setResult(data.data.image);
-                console.log(data.data.image);
 
                 setCredit(data?.data?.credit);
-                console.log(result || data.data?.result);
                 setResultImage(result);
                 toast.success(data.message);
                 setImg(result);
