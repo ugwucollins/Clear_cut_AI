@@ -1,3 +1,4 @@
+
 {
   "version": 2,
   "builds": [
@@ -7,10 +8,10 @@
     }
   ],
   "installCommand": "npm install --legacy-peer-deps",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }

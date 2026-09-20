@@ -18,12 +18,32 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 DBConnection();
+// app.use(
+//   cors({
+//     origin: [ORIGIN_URL, ORIGIN_URL2],
+//     credentials: true,
+//   }),
+// );
+
+
+const allowedOrigins = [ORIGIN_URL, ORIGIN_URL2].filter(Boolean);
+
 app.use(
   cors({
-    origin: [ORIGIN_URL, ORIGIN_URL2],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS policy: Access Denied"));
+      }
+    },
     credentials: true,
-  }),
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  })
 );
+
 
 app.use(cookieParser());
 
