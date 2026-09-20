@@ -1,15 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { UserAuth } from "../../Context/UserContext";
-import { ProfileSchema } from "../../utils/Schema/ProfileSchema";
-import type { ProfileValues } from "../../utils/FormValues/ProfileValues";
-import { ApiUrl } from "../../Context/ApiUrl";
 import { toast } from "react-toastify";
-import InputField from "../../Context/InputField";
+import { ApiUrl } from "../../Context/ApiUrl";
 import Button from "../../Context/Button";
+import InputField from "../../Context/InputField";
+import { UserAuth } from "../../Context/UserContext";
+import type { ProfileValues } from "../../utils/FormValues/ProfileValues";
+import { ProfileSchema } from "../../utils/Schema/ProfileSchema";
 
 const PersonalAccount = () => {
-  const { user, setUser }: any = UserAuth();
+  const { admin, setAdmin }: any = UserAuth();
   const {
     register,
     handleSubmit,
@@ -18,9 +18,9 @@ const PersonalAccount = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      email: user ? user.email : "",
-      name: user ? user.name : "",
-      phoneNumber: user ? user.phoneNumber : "",
+      email: admin ? admin.email : "",
+      name: admin ? admin.name : "",
+      phoneNumber: admin ? admin.phoneNumber : "",
     },
     resolver: zodResolver(ProfileSchema),
   });
@@ -46,7 +46,7 @@ const PersonalAccount = () => {
           setValue("name", info?.data?.name);
           setValue("email", info?.data?.email);
         }, 1000);
-        setUser(info.data);
+        setAdmin(info.data);
       } else {
         toast.error(info.message);
       }

@@ -1,4 +1,3 @@
-import { ApiUrl } from "./ApiUrl";
 import {
   createContext,
   useContext,
@@ -7,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import { toast } from "react-toastify";
+import { ApiUrl } from "./ApiUrl";
 import { CreateUserContext } from "./UserContext";
 
 export const authPath = "/api/auth";
