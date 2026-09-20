@@ -1,5 +1,5 @@
 import axios from "axios";
-const BaseUrl = import.meta.env.BASEURL_API || import.meta.env.VITE_BASEURL_API_PATH;
+const BaseUrl = import.meta.env.VERCEL_BASEURL_API || import.meta.env.VITE_BASEURL_API_PATH;
 // const BaseUrl = import.meta.env.VITE_BASEURL_API_PATH;
 
 export const ApiUrl = axios.create({
