@@ -106,3 +106,68 @@ export async function UploadImageNew(req, res) {
     });
   }
 }
+
+
+
+
+// export async function UploadImageNew(req, res) {
+//   const file = req.file;
+//   console.log("Incoming file metadata: ", file);
+
+//   try {
+//     // 1. Validate file presence
+//     if (!file) {
+//       return res
+//         .status(400)
+//         .json({ message: "No image file provided.", success: false });
+//     }
+
+//     // Initialize Cloudinary connection config
+//     await connectionCloudinary();
+
+//     // 2. Upload file stream directly from buffer (Bypasses Vercel read-only file system)
+//     const uploadFromBuffer = () => {
+//       return new Promise((resolve, reject) => {
+//         const uploadStream = cloudinary.uploader.upload_stream(
+//           {
+//             resource_type: "auto",
+//             folder: CLOUDINARY_FOLDER_NAME || "clear_cut_ai",
+//           },
+//           (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//           }
+//         );
+        
+//         // Pass the file buffer into the Cloudinary upload stream pipeline
+//         uploadStream.end(file.buffer);
+//       });
+//     };
+
+//     // Execute stream and await resolution
+//     const response = await uploadFromBuffer();
+
+//     if (!response || !response.secure_url) {
+//       return res
+//         .status(500)
+//         .json({ message: "Cloudinary upload failed to return a valid URL.", success: false });
+//     }
+
+//     const result = response.secure_url;
+//     console.log("Cloudinary Upload Success: ", result);
+
+//     return res.status(201).json({
+//       message: "Image Uploaded Successfully",
+//       success: true,
+//       data: response,
+//       url: result,
+//     });
+
+//   } catch (error) {
+//     console.error("Server Upload Controller Error:", error);
+//     return res.status(500).json({
+//       message: error.message || "Internal Server Error during upload processing.",
+//       success: false,
+//     });
+//   }
+// }

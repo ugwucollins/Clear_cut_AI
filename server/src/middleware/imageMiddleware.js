@@ -23,17 +23,23 @@ export default connectionCloudinary;
 
 // const storage = multer.memoryStorage();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "/uploads"); // Destination folder for uploads
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Unique filename
-  },
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "/uploads"); // Destination folder for uploads
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname); // Unique filename
+//   },
+// });
+
+// export const upload = multer({ storage: storage });
+
+
+const storage = multer.memoryStorage();
+export const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB safety ceiling
 });
-
-export const upload = multer({ storage: storage });
-
 // export const upload = multer({ dest: "uploads/" });
 
 export const ImageUpload = async (buffer) => {
