@@ -101,7 +101,8 @@ const ImageHistory = () => {
 
                   {/* Download */}
 
-                  <a href={item.newImage} download={item.newImage}>
+                  {/* <a href={item.newImage} download={item.newImage}> */}
+                  <a download href={item.newImage} >
                     <div className=" absolute w-auto rounded-full p-4 hover:shadow-2xl hover:shadow-blue-500 drop-shadow-2xl backdrop-blur-2xl bg-gray-600/40 right-2.5 text-xl font-bold hover:ring-2 hover:ring-blue-800 bottom-4 hover:animate-pulse">
                       <BsDownload />
                     </div>
