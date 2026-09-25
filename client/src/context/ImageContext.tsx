@@ -14,8 +14,10 @@ import { AuthPath, UserAuth } from "./UserContext";
 
 
 const createImageContext = createContext({});
+const online = window.navigator.onLine;
 
 const ImageContext = ({ children }: { children: ReactNode }) => {
+
   const [file, setFile] = useState(null);
   const [image, setImage] = useState<null | string>(null);
   const [img, setImg] = useState<null | string>(null);
@@ -55,7 +57,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
         }, 1000);
       }
     } catch (error: any) {
-      console.log(error);
       toast.error(error.message);
     }
   }
@@ -66,20 +67,144 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   };
 
   const BG_API_KEY_R = import.meta.env.VITE_BG_API_KEY_R2;
-  const online = window.navigator.onLine;
+
+  // async function handleRemove() {
+  //   if (credit === 0 || credit < 2) {
+  //     toast.error("Insufficent fund Please buy more Coins");
+  //     router("/price", { replace: true });
+  //   } else {
+  //     if (online) {
+  //       setLoading(true);
+  //       setTime(Date.now());
+
+  //       try {
+  //         setLoading(true);
+  //         const files: any = file;
+  //         console.log(files);
+
+  //         const formData = new FormData();
+  //         formData.append("size", "auto");
+  //         formData.append("image_file", files);
+
+  //         const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+  //           method: "POST",
+  //           headers: {
+  //             "X-Api-Key": BG_API_KEY_R,
+  //             // "Content-Type": "multipart/form-data"
+  //           },
+  //           body: formData,
+  //         });
+
+  //         console.log(response);
+  //         console.log(files);
+
+
+
+  //         if (response.ok) {
+  //           const blob = await response.blob();
+
+  //           const result = URL.createObjectURL(blob);
+  //           const bgImage = await ImageBlob(result, "new");
+
+  //           const old = URL.createObjectURL(files);
+  //           const oldImage = await ImageBlob(old, "old");
+
+  //           if (blob) {
+  //             setImg(result);
+  //             const endTime = Date.now();
+  //             const timeSpent = (endTime - time) / 1000;
+  //             console.log("Users image time" + timeSpent);
+
+
+  //             const imageInfo = {
+  //               img: bgImage.url || bgImage.data.url,
+  //               imgImage: oldImage.url || oldImage.data.url,
+  //               time: timeSpent,
+  //             };
+  //             const res = await ApiUrl.post("/image/create", imageInfo);
+  //             // const res = await ApiUrl.post("/image/create", imageInfo, {
+  //             //   headers: { "Content-Type": "multipart/form-data" },
+  //             // });
+
+  //             const data = await res.data;
+
+  //             if (data.success) {
+  //               setResult(data.data.image);
+
+  //               setCredit(data?.data?.credit);
+  //               setResultImage(result);
+  //               toast.success(data.message);
+  //               setImg(result);
+  //               setLoading(false);
+  //             } else {
+  //               toast.error(data.message);
+  //               throw new Error(data.message);
+  //             }
+  //           } else {
+  //             throw new Error(`${response.status}: ${response.statusText}`);
+  //           }
+  //         } else {
+  //           toast.error(response.statusText)
+  //           throw new Error(`${response.status}: ${response.statusText}`);
+  //         }
+
+  //         // const formData = new FormData();
+  //         // formData.append("image", files || file);
+  //         // const res = await ApiUrl.post("/image/create", formData, {
+  //         //   headers: { "Content-Type": "multipart/form-data" },
+  //         // });
+
+  //         // const data = res.data;
+  //         // console.log(data);
+
+  //         // if (data.success) {
+  //         //   console.log(data?.result);
+  //         //   const url = URL.createObjectURL(data?.result);
+  //         //   setResult(data);
+  //         //   console.log(data.data);
+
+  //         //   setCredit(data?.data?.credit);
+  //         //   console.log(data?.result);
+  //         //   setResultImage(url);
+  //         //   toast.success(data.message);
+  //         //   setImg(url);
+  //         // } else {
+  //         //   toast.error(data.message);
+  //         //   throw new Error(res.statusText);
+  //         // }
+  //       } catch (error: any) {
+  //         console.log(error);
+  //         toast.error(error?.response?.data?.message || error.message);
+  //         if (error?.response?.data?.url) {
+  //           setTimeout(() => {
+  //             router(error?.response?.data?.url, { replace: true });
+  //           }, 1000);
+  //         }
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     } else {
+  //       console.log("You are OffLine");
+  //       toast.error("Please Check your Network and Try again");
+  //     }
+  //   }
+  // }
 
   async function handleRemove() {
     if (credit === 0 || credit < 2) {
-      toast.error("Insufficent fund Please buy more Coins");
+      toast.error("Insufficient funds. Please buy more Coins");
       router("/price", { replace: true });
     } else {
       if (online) {
         setLoading(true);
-        setTime(Date.now());
+
+        // FIX 1: Capture the start time locally so it is immediately available
+        const startTime = Date.now();
+        setTime(startTime); // You can still save it to state if needed elsewhere
 
         try {
-          setLoading(true);
           const files: any = file;
+          console.log(files);
 
           const formData = new FormData();
           formData.append("size", "auto");
@@ -87,7 +212,9 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
 
           const response = await fetch("https://api.remove.bg/v1.0/removebg", {
             method: "POST",
-            headers: { "X-Api-Key": BG_API_KEY_R },
+            headers: {
+              "X-Api-Key": BG_API_KEY_R,
+            },
             body: formData,
           });
 
@@ -103,24 +230,22 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
             if (blob) {
               setImg(result);
               const endTime = Date.now();
-              const timeSpent = (endTime - time) / 1000;
-              console.log("Users image time" + timeSpent);
+
+              // FIX 2: Use the local startTime variable here
+              const timeSpent = (endTime - startTime) / 1000;
+              console.log("Users image time: " + timeSpent);
 
               const imageInfo = {
                 img: bgImage.url || bgImage.data.url,
                 imgImage: oldImage.url || oldImage.data.url,
                 time: timeSpent,
               };
-              const res = await ApiUrl.post("/image/create", imageInfo);
-              // const res = await ApiUrl.post("/image/create", imageInfo, {
-              //   headers: { "Content-Type": "multipart/form-data" },
-              // });
 
+              const res = await ApiUrl.post("/image/create", imageInfo);
               const data = await res.data;
 
               if (data.success) {
                 setResult(data.data.image);
-
                 setCredit(data?.data?.credit);
                 setResultImage(result);
                 toast.success(data.message);
@@ -128,41 +253,24 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
                 setLoading(false);
               } else {
                 toast.error(data.message);
-                throw new Error(res.statusText);
+                throw new Error(data.message);
               }
             } else {
               throw new Error(`${response.status}: ${response.statusText}`);
             }
           } else {
-            throw new Error(`${response.status}: ${response.statusText}`);
+            // FIX 3: Parse remove.bg error message safely if the API failed
+            let errorMsg = response.statusText;
+            try {
+              const errData = await response.json();
+              if (errData.errors) errorMsg = errData.errors[0].title;
+            } catch (e) { /* ignore fallback JSON parse errors */ }
+
+            toast.error(errorMsg);
+            throw new Error(`${response.status}: ${errorMsg}`);
           }
-
-          // const formData = new FormData();
-          // formData.append("image", files || file);
-          // const res = await ApiUrl.post("/image/create", formData, {
-          //   headers: { "Content-Type": "multipart/form-data" },
-          // });
-
-          // const data = res.data;
-          // console.log(data);
-
-          // if (data.success) {
-          //   console.log(data?.result);
-          //   const url = URL.createObjectURL(data?.result);
-          //   setResult(data);
-          //   console.log(data.data);
-
-          //   setCredit(data?.data?.credit);
-          //   console.log(data?.result);
-          //   setResultImage(url);
-          //   toast.success(data.message);
-          //   setImg(url);
-          // } else {
-          //   toast.error(data.message);
-          //   throw new Error(res.statusText);
-          // }
         } catch (error: any) {
-          console.log(error);
+          console.log("Caught Error:", error);
           toast.error(error?.response?.data?.message || error.message);
           if (error?.response?.data?.url) {
             setTimeout(() => {
@@ -177,7 +285,10 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
         toast.error("Please Check your Network and Try again");
       }
     }
+    console.log(time);
+
   }
+
 
   async function getRemovedImages() {
     setLoadingData(true);
@@ -214,7 +325,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
         const data = await res.data;
 
         if (data.success) {
-          console.log(data);
           toast.success(data.message);
           setTimeout(() => {
             getRemovedImages();
@@ -236,6 +346,7 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (user) {
       getRemovedImages();
+      console.log(history);
     }
   }, []);
 

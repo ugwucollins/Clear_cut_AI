@@ -1,18 +1,18 @@
-import { BiStar } from "react-icons/bi";
-import { YSlider } from "../../context/Animation";
-import type { TestimonialsProps } from "../../utils/types";
-import TestimonialsCard from "../../context/TestimonialsCard";
+import Aos from "aos";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Aos from "aos";
+import { BiStar } from "react-icons/bi";
+import { YSlider } from "../../context/Animation";
+import TestimonialsCard from "../../context/TestimonialsCard";
+import type { TestimonialsProps } from "../../utils/types";
 
 const Testimonials = () => {
   useEffect(() => {
     Aos.init({
       once: true,
-      duration: 1200,
+      duration: 1000,
       easing: "ease-in-out",
-      delay: 0.8,
+      delay: 0.1,
     });
   }, []);
   const [selectIndex, setSelectIndex] = useState<number>(1);
@@ -30,7 +30,7 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="flex flex-row justify-center items-center flex-wrap gap-x-5 max-sm:gap-y-7">
+        <div className="flex flex-row justify-center items-center flex-wrap gap-x-5 gap-y-4 max-sm:gap-y-7">
           {TestimonialsArray.map((item, index: number) => {
             const even = index % 2 === 0;
             return (

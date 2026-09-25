@@ -113,7 +113,7 @@ export const removeImage = async (req, res) => {
   connectionCloudinary();
 
   const userId = req.userId;
-  const file = req.file;
+  // const file = req.file;
   let status = "pending";
 
   const { img, imgImage, time } = req.body;

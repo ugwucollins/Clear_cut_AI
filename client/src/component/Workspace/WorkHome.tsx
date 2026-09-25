@@ -36,8 +36,7 @@ const WorkHome = () => {
   useEffect(() => {
     Aos.init({
       duration: 1000,
-      delay: 1,
-      debounceDelay: 1,
+      delay: 0.1,
       once: true,
       easing: "ease-in-out",
     });
