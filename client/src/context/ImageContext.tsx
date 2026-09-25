@@ -198,9 +198,9 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
       if (online) {
         setLoading(true);
 
-        // FIX 1: Capture the start time locally so it is immediately available
+
         const startTime = Date.now();
-        setTime(startTime); // You can still save it to state if needed elsewhere
+        setTime(startTime);
 
         try {
           const files: any = file;
@@ -222,9 +222,11 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
 
             const result = URL.createObjectURL(blob);
             const bgImage = await ImageBlob(result, "new");
+            console.log(bgImage);
 
             const old = URL.createObjectURL(files);
             const oldImage = await ImageBlob(old, "old");
+            console.log(oldImage);
 
             if (blob) {
               setImg(result);
@@ -235,8 +237,8 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
               console.log("Users image time: " + timeSpent);
 
               const imageInfo = {
-                img: bgImage.url || bgImage.data.url,
-                imgImage: oldImage.url || oldImage.data.url,
+                img: bgImage.data.url || bgImage.url,
+                imgImage: oldImage.data.url || oldImage.url,
                 time: timeSpent,
               };
 
