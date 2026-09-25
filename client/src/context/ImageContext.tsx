@@ -204,7 +204,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
 
         try {
           const files: any = file;
-          console.log(files);
 
           const formData = new FormData();
           formData.append("size", "auto");
@@ -346,7 +345,6 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (user) {
       getRemovedImages();
-      console.log(history);
     }
   }, []);
 

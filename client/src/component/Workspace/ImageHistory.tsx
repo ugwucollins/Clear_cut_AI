@@ -1,5 +1,5 @@
 import Aos from "aos";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiImageAdd, BiLoader, BiPlus, BiUpload } from "react-icons/bi";
 import { BsDownload } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 import Button from "../../context/Button";
 import { ImageAuth } from "../../context/ImageContext";
 import Loader from "../../context/Loader";
+import { createUserContext } from './../../App';
 
 export const Type = "public";
 const ImageHistory = () => {
-  const { history, loadingData, PublicImages }: any = ImageAuth();
+  const { history, loadingData, PublicImages, getRemovedImages }: any = ImageAuth();
+  const { user }: any = useContext(createUserContext);
   const router = useNavigate();
   useEffect(() => {
     Aos.init({
@@ -18,6 +20,12 @@ const ImageHistory = () => {
       once: true,
       delay: 100,
     });
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getRemovedImages();
+    }
   }, []);
 
 
