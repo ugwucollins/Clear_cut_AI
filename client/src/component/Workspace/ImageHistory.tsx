@@ -31,7 +31,7 @@ const ImageHistory = () => {
 
   return (
     <div className="w-full h-auto py-10">
-      <div className="flex gap-2 max-sm:gap-8 flex-wrap w-full flex-row justify-items-stretch">
+      <div className="flex gap-2 max-lg:gap-5 max-sm:gap-8 flex-wrap w-full flex-row justify-items-stretch">
         {loadingData && (
           <div
             className="w-full py-10"
