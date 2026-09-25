@@ -190,105 +190,202 @@ const ImageContext = ({ children }: { children: ReactNode }) => {
   //   }
   // }
 
+  // async function handleRemove() {
+  //   if (credit === 0 || credit < 2) {
+  //     toast.error("Insufficient funds. Please buy more Coins");
+  //     router("/price", { replace: true });
+  //   } else {
+  //     if (online) {
+  //       setLoading(true);
+
+
+  //       const startTime = Date.now();
+  //       setTime(startTime);
+
+  //       try {
+  //         const files: any = file;
+
+  //         const formData = new FormData();
+  //         formData.append("size", "auto");
+  //         formData.append("image_file", files);
+
+  //         const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+  //           method: "POST",
+  //           headers: {
+  //             "X-Api-Key": BG_API_KEY_R,
+  //           },
+  //           body: formData,
+  //         });
+
+  //         if (response.ok) {
+  //           const blob = await response.blob();
+
+  //           const result = URL.createObjectURL(blob);
+  //           const bgImage = await ImageBlob(result, "new");
+
+  //           const old = URL.createObjectURL(files);
+  //           const oldImage = await ImageBlob(old, "old");
+
+  //           if (blob) {
+  //             setImg(result);
+  //             const endTime = Date.now();
+
+  //             // FIX 2: Use the local startTime variable here
+  //             const timeSpent = (endTime - startTime) / 1000;
+  //             console.log("Users image time: " + timeSpent);
+
+  //             const imageInfo = {
+  //               img: bgImage.data.url || bgImage.url,
+  //               imgImage: oldImage.data.url || oldImage.url,
+  //               time: timeSpent,
+  //             };
+
+  //             const res = await ApiUrl.post("/image/create", imageInfo);
+  //             const data = await res.data;
+
+  //             if (data.success) {
+  //               setResult(data.data.image);
+  //               setCredit(data?.data?.credit);
+  //               setResultImage(result);
+  //               toast.success(data.message);
+  //               setImg(result);
+  //               setLoading(false);
+  //             } else {
+  //               toast.error(data.message);
+  //               throw new Error(data.message);
+  //             }
+  //           } else {
+  //             throw new Error(`${response.status}: ${response.statusText}`);
+  //           }
+  //         } else {
+  //           // FIX 3: Parse remove.bg error message safely if the API failed
+  //           let errorMsg = response.statusText;
+  //           try {
+  //             const errData = await response.json();
+  //             if (errData.errors) errorMsg = errData.errors[0].title;
+  //           } catch (e) { /* ignore fallback JSON parse errors */ }
+
+  //           toast.error(errorMsg);
+  //           throw new Error(`${response.status}: ${errorMsg}`);
+  //         }
+  //       } catch (error: any) {
+  //         console.log("Caught Error:", error);
+  //         toast.error(error?.response?.data?.message || error.message);
+  //         if (error?.response?.data?.url) {
+  //           setTimeout(() => {
+  //             router(error?.response?.data?.url, { replace: true });
+  //           }, 1000);
+  //         }
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     } else {
+  //       console.log("You are OffLine");
+  //       toast.error("Please Check your Network and Try again");
+  //     }
+  //   }
+  //   console.log(time);
+
+  // }
+
   async function handleRemove() {
     if (credit === 0 || credit < 2) {
       toast.error("Insufficient funds. Please buy more Coins");
       router("/price", { replace: true });
-    } else {
-      if (online) {
-        setLoading(true);
-
-
-        const startTime = Date.now();
-        setTime(startTime);
-
-        try {
-          const files: any = file;
-
-          const formData = new FormData();
-          formData.append("size", "auto");
-          formData.append("image_file", files);
-
-          const response = await fetch("https://api.remove.bg/v1.0/removebg", {
-            method: "POST",
-            headers: {
-              "X-Api-Key": BG_API_KEY_R,
-            },
-            body: formData,
-          });
-
-          if (response.ok) {
-            const blob = await response.blob();
-
-            const result = URL.createObjectURL(blob);
-            const bgImage = await ImageBlob(result, "new");
-            console.log(bgImage);
-
-            const old = URL.createObjectURL(files);
-            const oldImage = await ImageBlob(old, "old");
-            console.log(oldImage);
-
-            if (blob) {
-              setImg(result);
-              const endTime = Date.now();
-
-              // FIX 2: Use the local startTime variable here
-              const timeSpent = (endTime - startTime) / 1000;
-              console.log("Users image time: " + timeSpent);
-
-              const imageInfo = {
-                img: bgImage.data.url || bgImage.url,
-                imgImage: oldImage.data.url || oldImage.url,
-                time: timeSpent,
-              };
-
-              const res = await ApiUrl.post("/image/create", imageInfo);
-              const data = await res.data;
-
-              if (data.success) {
-                setResult(data.data.image);
-                setCredit(data?.data?.credit);
-                setResultImage(result);
-                toast.success(data.message);
-                setImg(result);
-                setLoading(false);
-              } else {
-                toast.error(data.message);
-                throw new Error(data.message);
-              }
-            } else {
-              throw new Error(`${response.status}: ${response.statusText}`);
-            }
-          } else {
-            // FIX 3: Parse remove.bg error message safely if the API failed
-            let errorMsg = response.statusText;
-            try {
-              const errData = await response.json();
-              if (errData.errors) errorMsg = errData.errors[0].title;
-            } catch (e) { /* ignore fallback JSON parse errors */ }
-
-            toast.error(errorMsg);
-            throw new Error(`${response.status}: ${errorMsg}`);
-          }
-        } catch (error: any) {
-          console.log("Caught Error:", error);
-          toast.error(error?.response?.data?.message || error.message);
-          if (error?.response?.data?.url) {
-            setTimeout(() => {
-              router(error?.response?.data?.url, { replace: true });
-            }, 1000);
-          }
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        console.log("You are OffLine");
-        toast.error("Please Check your Network and Try again");
-      }
+      return; // Ensure execution stops here
     }
-    console.log(time);
 
+    if (!online) {
+      console.log("You are OffLine");
+      toast.error("Please Check your Network and Try again");
+      return;
+    }
+
+    setLoading(true);
+    const startTime = Date.now();
+    setTime(startTime);
+
+    try {
+      const files: any = file;
+      if (!files) {
+        toast.error("No file selected.");
+        setLoading(false);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("size", "auto");
+      formData.append("image_file", files);
+
+      const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+        method: "POST",
+        headers: {
+          "X-Api-Key": BG_API_KEY_R || "",
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        toast.error(`Remove.bg Error: ${response.statusText}`);
+        console.log(time);
+        throw new Error(`${response.status}: ${response.statusText}`);
+
+      }
+
+      const blob = await response.blob();
+      if (!blob) {
+        throw new Error("Failed to read processed image blob.");
+      }
+
+      const result = URL.createObjectURL(blob);
+      setImg(result);
+
+      // Upload both pieces to your API via ImageBlob
+      const bgImage = await ImageBlob(result, "new");
+      const old = URL.createObjectURL(files);
+      const oldImage = await ImageBlob(old, "old");
+
+      // SAFETY CHECK: If either image upload failed due to Vercel's 4.5MB 413 error
+      if (!bgImage || !oldImage) {
+        throw new Error("Image uploads failed. The files might be too large for Vercel's 4.5MB limit.");
+      }
+
+      const endTime = Date.now();
+      const timeSpent = (endTime - startTime) / 1000;
+      console.log("Users image time: " + timeSpent);
+
+      // Safely access properties using optional chaining
+      const imageInfo = {
+        img: bgImage?.data?.url || bgImage?.url,
+        imgImage: oldImage?.data?.url || oldImage?.url,
+        time: timeSpent,
+      };
+
+      // Call database update endpoint
+      const res = await ApiUrl.post("/image/create", imageInfo);
+
+      // FIX: Removed "await" from res.data because Axios data is an object, not a promise
+      const data = res.data;
+
+      if (data && data.success) {
+        setResult(data.data.image);
+        setCredit(data?.data?.credit);
+        setResultImage(result);
+        toast.success(data.message || "Background removed successfully!");
+        setImg(result);
+      } else {
+        toast.error(data?.message || "Failed to save data record.");
+        throw new Error(data?.message || "Data saving failed.");
+      }
+
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   }
+
 
 
   async function getRemovedImages() {
