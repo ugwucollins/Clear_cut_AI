@@ -112,7 +112,7 @@ const { CLOUDINARY_FOLDER_NAME } = process.env;
 
 export async function UploadImageNew(req, res) {
   const file = req.file;
-  console.log("Incoming file metadata: ", file);
+  // console.log("Incoming file metadata: ", file);
 
   try {
     // 1. Validate file presence
@@ -154,7 +154,7 @@ export async function UploadImageNew(req, res) {
     }
 
     const result = response.secure_url;
-    console.log("Cloudinary Upload Success: ", result);
+    // console.log("Cloudinary Upload Success: ", result);
 
     return res.status(201).json({
       message: "Image Uploaded Successfully",
