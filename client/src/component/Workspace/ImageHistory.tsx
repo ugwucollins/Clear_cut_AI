@@ -122,7 +122,10 @@ const ImageHistory = () => {
 
   const downloadImage = async (url: string, filename = 'Clear-cut-ai-image.png') => {
     try {
-      const response = await fetch(url, { mode: 'cors' });
+      // Force HTTPS to resolve the Mixed Content blocking error
+      const secureUrl = url.replace(/^http:\/\//i, 'https://');
+
+      const response = await fetch(secureUrl, { mode: 'cors' });
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
 
@@ -138,6 +141,7 @@ const ImageHistory = () => {
       console.error('Download failed:', error);
     }
   };
+
 
 
   return (
