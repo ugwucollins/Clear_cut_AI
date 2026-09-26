@@ -8,6 +8,11 @@ import Button from "../../context/Button";
 import { ImageAuth } from "../../context/ImageContext";
 import Loader from "../../context/Loader";
 import { createUserContext } from './../../App';
+// import { saveAs } from 'file-saver';
+
+// const handleDownload = () => {
+//   saveAs('https://res.cloudinary.com/demo/image/upload/sample.jpg', 'Clear-cut-ai-image.jpg');
+// };
 
 export const Type = "public";
 const ImageHistory = () => {
@@ -62,58 +67,78 @@ const ImageHistory = () => {
   //   }
   // };
 
-  const handleDownload = async (imageUrl: string, filename = "clear_cut_ai.png") => {
+  // const handleDownload = async (imageUrl: string, filename = "clear_cut_ai.png") => {
+  //   try {
+  //     if (!imageUrl) {
+  //       alert("No image link available to download.");
+  //       return;
+  //     }
+
+  //     // 1. Force Cloudinary to treat this resource as a direct attachment file stream
+  //     let optimizedUrl = imageUrl.replace("/upload/", "/upload/fl_attachment/");
+
+  //     const uniqueSeparator = optimizedUrl.includes("?") ? "&" : "?";
+  //     const secureFetchUrl = `${optimizedUrl}${uniqueSeparator}download_ts=${Date.now()}`;
+
+  //     // 3. Request the image file payload natively over the network
+  //     const response = await fetch(secureFetchUrl, {
+  //       method: "GET",
+  //       cache: "no-cache", // Forces the fetch engine to bypass reading standard disk caches
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`Server network failure status code: ${response.status}`);
+  //     }
+
+  //     const blob = await response.blob();
+  //     if (!blob || blob.size === 0) {
+  //       throw new Error("The retrieved blob payload returned empty data bytes.");
+  //     }
+
+  //     // 4. Generate local object file paths locally inside browser RAM memory allocations
+  //     const localUrl = URL.createObjectURL(blob);
+
+  //     // 5. Build a virtual anchor element targeting local browser runtime scopes
+  //     const link = document.createElement("a");
+  //     link.href = localUrl;
+  //     link.download = filename;
+
+  //     document.body.appendChild(link);
+  //     link.click();
+
+  //     // 6. Housekeeping: Free up hardware operational scopes and element trees
+  //     document.body.removeChild(link);
+  //     URL.revokeObjectURL(localUrl);
+
+  //   } catch (error) {
+  //     console.error("Advanced Download Interruption Logged:", error);
+  //     alert("Could not process image download. Bypassing fallback to new window...");
+
+  //     // 7. SAFE FALLBACK: If the browser's sandbox still blocks it, 
+  //     // open the image in a new tab so the user can right-click and save it manually.
+  //     window.open(imageUrl, "_blank");
+  //   }
+  // };
+
+  const downloadImage = async (url: string, filename = 'Clear-cut-ai-image.png') => {
     try {
-      if (!imageUrl) {
-        alert("No image link available to download.");
-        return;
-      }
-
-      // 1. Force Cloudinary to treat this resource as a direct attachment file stream
-      let optimizedUrl = imageUrl.replace("/upload/", "/upload/fl_attachment/");
-
-      const uniqueSeparator = optimizedUrl.includes("?") ? "&" : "?";
-      const secureFetchUrl = `${optimizedUrl}${uniqueSeparator}download_ts=${Date.now()}`;
-
-      // 3. Request the image file payload natively over the network
-      const response = await fetch(secureFetchUrl, {
-        method: "GET",
-        cache: "no-cache", // Forces the fetch engine to bypass reading standard disk caches
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server network failure status code: ${response.status}`);
-      }
-
+      const response = await fetch(url, { mode: 'cors' });
       const blob = await response.blob();
-      if (!blob || blob.size === 0) {
-        throw new Error("The retrieved blob payload returned empty data bytes.");
-      }
+      const blobUrl = window.URL.createObjectURL(blob);
 
-      // 4. Generate local object file paths locally inside browser RAM memory allocations
-      const localUrl = URL.createObjectURL(blob);
-
-      // 5. Build a virtual anchor element targeting local browser runtime scopes
-      const link = document.createElement("a");
-      link.href = localUrl;
+      const link = document.createElement('a');
+      link.href = blobUrl;
       link.download = filename;
-
       document.body.appendChild(link);
       link.click();
-
-      // 6. Housekeeping: Free up hardware operational scopes and element trees
       document.body.removeChild(link);
-      URL.revokeObjectURL(localUrl);
 
+      window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
-      console.error("Advanced Download Interruption Logged:", error);
-      alert("Could not process image download. Bypassing fallback to new window...");
-
-      // 7. SAFE FALLBACK: If the browser's sandbox still blocks it, 
-      // open the image in a new tab so the user can right-click and save it manually.
-      window.open(imageUrl, "_blank");
+      console.error('Download failed:', error);
     }
   };
+
 
   return (
     <div className="w-full h-auto py-10">
@@ -188,7 +213,7 @@ const ImageHistory = () => {
                   {/* Download */}
 
                   {/* <a href={item.newImage} download={item.newImage}> */}
-                  <div onClick={() => handleDownload(item.newImage, `clear_cut_ai_${item.id || Date.now()}.png`)}
+                  <div onClick={() => downloadImage(item.newImage, `clear_cut_ai_${item.id || Date.now()}.png`)}
                     className="cursor-pointer" >
                     <div className=" absolute w-auto rounded-full p-4 hover:shadow-2xl hover:shadow-blue-500 drop-shadow-2xl backdrop-blur-2xl bg-gray-600/40 right-2.5 text-xl font-bold hover:ring-2 hover:ring-blue-800 bottom-4 hover:animate-pulse">
                       <BsDownload />
