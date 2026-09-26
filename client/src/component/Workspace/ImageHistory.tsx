@@ -98,6 +98,7 @@ const ImageHistory = () => {
 
   const handleDownload = (imageUrl: string, filename = "Clear-cut-ai-image.jpg") => {
     saveAs(imageUrl, filename);
+    toast.success("Image Downloaded Successfully");
   };
   return (
     <div className="w-full h-auto py-10">
