@@ -11,6 +11,7 @@ import { createUserContext } from './../../App';
 
 export const Type = "public";
 const ImageHistory = () => {
+
   const { history, loadingData, PublicImages, getRemovedImages }: any = ImageAuth();
   const { user }: any = useContext(createUserContext);
   const router = useNavigate();
@@ -27,6 +28,39 @@ const ImageHistory = () => {
       getRemovedImages();
     }
   }, []);
+
+
+  const handleDownload = async (imageUrl: string, filename = "clear_cut_ai.png") => {
+    try {
+      // 1. Fetch the image from Cloudinary as raw blob data
+      const response = await fetch(imageUrl, {
+        method: "GET",
+        headers: {},
+      });
+
+      if (!response.ok) throw new Error("Failed to download image from server.");
+
+      const blob = await response.blob();
+
+      // 2. Create a temporary local URL for the downloaded blob
+      const localUrl = URL.createObjectURL(blob);
+
+      // 3. Programmatically generate a hidden anchor tag to trigger the browser save dialog
+      const link = document.createElement("a");
+      link.href = localUrl;
+      link.download = filename; // Forces the browser to download instead of opening it
+
+      document.body.appendChild(link);
+      link.click();
+
+      // 4. Clean up memory allocations
+      document.body.removeChild(link);
+      URL.revokeObjectURL(localUrl);
+    } catch (error) {
+      console.error("Download Error:", error);
+      alert("Could not process image download. Please try again.");
+    }
+  };
 
 
   return (
@@ -102,11 +136,17 @@ const ImageHistory = () => {
                   {/* Download */}
 
                   {/* <a href={item.newImage} download={item.newImage}> */}
-                  <a download href={item.newImage} >
+                  <div onClick={() => handleDownload(item.newImage, `clear_cut_ai_${item.id || Date.now()}.png`)}
+                    className="cursor-pointer" >
                     <div className=" absolute w-auto rounded-full p-4 hover:shadow-2xl hover:shadow-blue-500 drop-shadow-2xl backdrop-blur-2xl bg-gray-600/40 right-2.5 text-xl font-bold hover:ring-2 hover:ring-blue-800 bottom-4 hover:animate-pulse">
                       <BsDownload />
                     </div>
-                  </a>
+                  </div>
+                  {/* <a download href={item.newImage} >
+                    <div className=" absolute w-auto rounded-full p-4 hover:shadow-2xl hover:shadow-blue-500 drop-shadow-2xl backdrop-blur-2xl bg-gray-600/40 right-2.5 text-xl font-bold hover:ring-2 hover:ring-blue-800 bottom-4 hover:animate-pulse">
+                      <BsDownload />
+                    </div>
+                  </a> */}
                 </div>
               );
             })}
