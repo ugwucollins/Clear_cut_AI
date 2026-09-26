@@ -98,8 +98,8 @@ const ImageHistory = () => {
 
   const handleDownload = (imageUrl: string, filename = "Clear-cut-ai-image.jpg") => {
     saveAs(imageUrl, filename);
-    toast.success("Image Downloaded Successfully");
   };
+
   return (
     <div className="w-full h-auto py-10">
       <div className="flex gap-2 max-lg:gap-5 max-sm:gap-8 flex-wrap w-full flex-row justify-items-stretch">
