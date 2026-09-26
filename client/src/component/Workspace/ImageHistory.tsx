@@ -99,18 +99,21 @@ const ImageHistory = () => {
   // const handleDownload = (imageUrl: string, filename = "Clear-cut-ai-image.jpg") => {
   //   saveAs(imageUrl, filename);
   // };
-  const handleDownload = (imageUrl: string, filename = "Clear-cut-ai-image.jpg") => {
-    // Ensure we are using secure https
-    let secureUrl = imageUrl.replace(/^http:\/\//i, 'https://');
+  const handleDownload = async (imageUrl: string, filename = "Clear-cut-ai-image.jpg") => {
+    try {
+      const secureUrl = imageUrl.replace(/^http:\/\//i, 'https://');
 
-    // Inject 'fl_attachment' after '/upload/' in the Cloudinary link to force a download
-    if (secureUrl.includes('/upload/')) {
-      secureUrl = secureUrl.replace('/upload/', `/upload/fl_attachment:${filename.split('.')[0]}/`);
+      // Convert the image asset to local blob data first
+      const response = await fetch(secureUrl, { mode: 'cors' });
+      const blob = await response.blob();
+
+      // Save the local binary blob data directly
+      saveAs(blob, filename);
+    } catch (error) {
+      console.error("Download handling failed:", error);
     }
-
-    // Use file-saver with the modified URL string
-    saveAs(secureUrl, filename);
   };
+
 
 
   return (
