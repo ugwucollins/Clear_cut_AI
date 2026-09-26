@@ -30,38 +30,90 @@ const ImageHistory = () => {
   }, []);
 
 
+  // const handleDownload = async (imageUrl: string, filename = "clear_cut_ai.png") => {
+  //   try {
+  //     // 1. Fetch the image from Cloudinary as raw blob data
+  //     const response = await fetch(imageUrl, {
+  //       method: "GET",
+  //       headers: {},
+  //     });
+
+  //     if (!response.ok) throw new Error("Failed to download image from server.");
+
+  //     const blob = await response.blob();
+
+  //     // 2. Create a temporary local URL for the downloaded blob
+  //     const localUrl = URL.createObjectURL(blob);
+
+  //     // 3. Programmatically generate a hidden anchor tag to trigger the browser save dialog
+  //     const link = document.createElement("a");
+  //     link.href = localUrl;
+  //     link.download = filename; // Forces the browser to download instead of opening it
+
+  //     document.body.appendChild(link);
+  //     link.click();
+
+  //     // 4. Clean up memory allocations
+  //     document.body.removeChild(link);
+  //     URL.revokeObjectURL(localUrl);
+  //   } catch (error) {
+  //     console.error("Download Error:", error);
+  //     alert("Could not process image download. Please try again.");
+  //   }
+  // };
+
   const handleDownload = async (imageUrl: string, filename = "clear_cut_ai.png") => {
     try {
-      // 1. Fetch the image from Cloudinary as raw blob data
-      const response = await fetch(imageUrl, {
+      if (!imageUrl) {
+        alert("No image link available to download.");
+        return;
+      }
+
+      // 1. Force Cloudinary to treat this resource as a direct attachment file stream
+      let optimizedUrl = imageUrl.replace("/upload/", "/upload/fl_attachment/");
+
+      const uniqueSeparator = optimizedUrl.includes("?") ? "&" : "?";
+      const secureFetchUrl = `${optimizedUrl}${uniqueSeparator}download_ts=${Date.now()}`;
+
+      // 3. Request the image file payload natively over the network
+      const response = await fetch(secureFetchUrl, {
         method: "GET",
-        headers: {},
+        cache: "no-cache", // Forces the fetch engine to bypass reading standard disk caches
       });
 
-      if (!response.ok) throw new Error("Failed to download image from server.");
+      if (!response.ok) {
+        throw new Error(`Server network failure status code: ${response.status}`);
+      }
 
       const blob = await response.blob();
+      if (!blob || blob.size === 0) {
+        throw new Error("The retrieved blob payload returned empty data bytes.");
+      }
 
-      // 2. Create a temporary local URL for the downloaded blob
+      // 4. Generate local object file paths locally inside browser RAM memory allocations
       const localUrl = URL.createObjectURL(blob);
 
-      // 3. Programmatically generate a hidden anchor tag to trigger the browser save dialog
+      // 5. Build a virtual anchor element targeting local browser runtime scopes
       const link = document.createElement("a");
       link.href = localUrl;
-      link.download = filename; // Forces the browser to download instead of opening it
+      link.download = filename;
 
       document.body.appendChild(link);
       link.click();
 
-      // 4. Clean up memory allocations
+      // 6. Housekeeping: Free up hardware operational scopes and element trees
       document.body.removeChild(link);
       URL.revokeObjectURL(localUrl);
+
     } catch (error) {
-      console.error("Download Error:", error);
-      alert("Could not process image download. Please try again.");
+      console.error("Advanced Download Interruption Logged:", error);
+      alert("Could not process image download. Bypassing fallback to new window...");
+
+      // 7. SAFE FALLBACK: If the browser's sandbox still blocks it, 
+      // open the image in a new tab so the user can right-click and save it manually.
+      window.open(imageUrl, "_blank");
     }
   };
-
 
   return (
     <div className="w-full h-auto py-10">
